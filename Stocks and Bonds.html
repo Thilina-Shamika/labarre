@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stocks &amp; Bonds — George H. LaBarre Galleries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/chrome.js"></script>
+<script src="assets/listing.js"></script>
+</head>
+<body data-page="stocks-bonds">
+<script>document.write(LB.header('stocks-bonds'))</script>
+<div class="page-head"><div class="wrap">
+  <div class="breadcrumb"><a href="home.html">Home</a><span class="sep">/</span><span>Stocks &amp; Bonds</span></div>
+  <span class="label">Scripophily</span>
+  <h1>Stocks &amp; Bonds</h1>
+  <p>Engraved stock certificates and bonds from the railroads, mines, and industries that built the modern economy — the art and archaeology of finance.</p>
+</div></div>
+<section class="listing"><div class="wrap">
+  <button class="btn btn-line filter-toggle" id="filterToggle" type="button">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+    Filter &amp; Refine
+  </button>
+  <div class="shop-layout">
+    <aside class="filters-side" id="filtersSide"></aside>
+    <div class="shop-main">
+      <div class="toolbar">
+        <span class="count"><b id="count">0</b> pieces</span>
+        <div class="active-filters" id="activeFilters"></div>
+        <div class="sort"><label>Sort</label>
+          <select id="sortSel">
+            <option value="feat">Featured</option>
+            <option value="pl">Price: Low to High</option>
+            <option value="ph">Price: High to Low</option>
+            <option value="az">Title: A–Z</option>
+          </select>
+        </div>
+      </div>
+      <div class="pgrid" id="grid"></div>
+      <div class="loadmore-row">
+        <button class="btn btn-line" id="loadMore" type="button">Load More Pieces
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <span class="rem" id="rem"></span>
+      </div>
+    </div>
+  </div>
+</div></section>
+<script>document.write(LB.footer())</script>
+</body>
+</html>

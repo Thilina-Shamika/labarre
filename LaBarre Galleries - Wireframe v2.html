@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LaBarre Galleries — Home v2 Wireframe</title>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --ink:#3b3b3b; --head:#2f2f2f; --gray:#8c8c8c; --gray2:#a6a6a6;
+    --line:#333; --soft:#cfcfcf; --dash:#bcbcbc; --fill:#e7e7e7; --bar:#d3d3d3;
+    --sans:"Helvetica Neue", Arial, "Segoe UI", sans-serif;
+  }
+  body{background:#e6e6e6;font-family:var(--sans);color:var(--ink);padding:40px 20px 90px;line-height:1.4;}
+  .toolbar{position:fixed;top:18px;right:24px;z-index:200;}
+  .dlbtn{font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.04em;background:#2d2d2d;color:#fff;border:none;padding:13px 20px;cursor:pointer;border-radius:3px;box-shadow:0 6px 18px -6px rgba(0,0,0,.4);display:flex;align-items:center;gap:9px;}
+  .dlbtn:hover{background:#000;}
+  .dlbtn svg{width:15px;height:15px;}
+
+  #wire{width:1320px;margin:0 auto;background:#fff;border:2px solid var(--line);}
+
+  .box{border:1.5px solid var(--line);background:#fff;}
+  .bar{background:var(--bar);height:13px;border-radius:1px;}
+  .bar.sm{height:10px;}
+  .bar.dk{background:#a9a9a9;}
+  .btn{border:1.5px solid var(--line);background:#fff;font-weight:700;color:var(--head);font-size:15px;padding:0 22px;height:48px;display:inline-flex;align-items:center;justify-content:center;}
+  .btn.fill{background:var(--fill);}
+  .eyebrow{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--gray);font-weight:500;}
+  .imgbox{position:relative;border:1.5px solid #555;background:#fff;overflow:hidden;
+    background-image:
+      linear-gradient(to top right, transparent calc(50% - 0.8px), #c4c4c4, transparent calc(50% + 0.8px)),
+      linear-gradient(to top left, transparent calc(50% - 0.8px), #c4c4c4, transparent calc(50% + 0.8px));}
+  .imgbox .il{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:13px;color:#777;background:#fff;border:1px solid #999;padding:3px 10px;white-space:nowrap;}
+
+  .pad{padding:0 46px;}
+  .row{display:flex;}
+  .col{display:flex;flex-direction:column;}
+  .center{display:flex;flex-direction:column;align-items:center;}
+
+  .util{border-bottom:1.5px solid var(--line);}
+  .util .row{justify-content:space-between;align-items:center;height:48px;}
+  .util span{font-size:14px;color:var(--gray);}
+  .util .grp{display:flex;gap:30px;}
+
+  /* centered masthead */
+  .mast{position:relative;border-bottom:1.5px solid var(--line);padding:26px 46px;}
+  .mast .center{align-items:center;}
+  .mast .logo{width:300px;height:78px;display:flex;align-items:center;justify-content:center;color:var(--gray);font-size:15px;letter-spacing:.08em;}
+  .mast .left{position:absolute;left:46px;top:50%;transform:translateY(-50%);}
+  .mast .right{position:absolute;right:46px;top:50%;transform:translateY(-50%);display:flex;gap:12px;}
+  .mast .sq{width:42px;height:42px;border:1.5px solid var(--line);border-radius:5px;display:grid;place-items:center;font-size:11px;color:var(--gray);}
+
+  /* centered nav */
+  .nav{border-bottom:2.5px solid var(--line);padding:0 46px;}
+  .nav .row{justify-content:center;align-items:center;gap:40px;height:62px;flex-wrap:wrap;}
+  .nav .it{font-weight:700;font-size:15px;color:var(--head);letter-spacing:.02em;}
+
+  /* hero */
+  .hero{padding:56px 46px 64px;}
+  .hero .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:center;}
+  .hero h1{font-size:54px;line-height:1.05;color:var(--head);font-weight:700;letter-spacing:-.01em;margin:16px 0 26px;}
+  .hero .lines{display:flex;flex-direction:column;gap:10px;max-width:540px;margin-bottom:28px;}
+  .hero .meta{display:flex;border-top:1.5px solid var(--soft);border-bottom:1.5px solid var(--soft);padding:16px 0;margin-bottom:28px;}
+  .hero .meta .cell{padding:0 28px;border-left:1.5px solid var(--soft);display:flex;flex-direction:column;gap:9px;}
+  .hero .meta .cell:first-child{padding-left:0;border-left:none;}
+  .hero .meta .k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);}
+  .hero .btns{display:flex;gap:16px;}
+
+  .heroimg{position:relative;}
+  .heroimg .frame{border:1.5px solid var(--line);padding:16px;}
+  .heroimg .seal{position:absolute;right:-14px;top:-14px;width:80px;height:80px;border-radius:50%;border:1.5px solid var(--line);background:#ededed;display:grid;place-items:center;text-align:center;font-size:11px;color:#777;line-height:1.2;z-index:3;}
+  .heroimg .cap{display:flex;justify-content:space-between;align-items:center;margin-top:14px;}
+
+  /* sections */
+  .sec{padding:62px 46px;border-top:1.5px dashed var(--dash);position:relative;}
+  .sec .slabel{position:absolute;top:10px;left:16px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#c2c2c2;}
+  .shead{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:44px;text-align:center;}
+  .shead h2{font-size:38px;font-weight:700;color:var(--head);}
+
+  .plates{display:grid;grid-template-columns:repeat(3,1fr);gap:40px 34px;}
+  .plate .cap{display:flex;justify-content:space-between;align-items:flex-end;border-top:1.5px solid var(--soft);padding-top:14px;margin-top:16px;}
+  .plate .cap .t{font-size:19px;font-weight:700;color:var(--head);}
+  .plate .cap .c{font-size:13px;color:var(--gray);}
+
+  .timeline{position:relative;margin-top:14px;}
+  .timeline .axis{position:absolute;left:0;right:0;top:42px;border-top:1.5px solid var(--soft);}
+  .timeline .erow{display:flex;justify-content:space-between;position:relative;}
+  .timeline .era{display:flex;flex-direction:column;align-items:center;gap:12px;width:130px;text-align:center;}
+  .timeline .era .yr{font-size:28px;font-weight:700;color:var(--head);}
+  .timeline .era .node{width:15px;height:15px;border-radius:50%;border:1.5px solid #555;background:#fff;}
+  .timeline .era .nm{font-size:14px;font-weight:600;}
+  .timeline .era .sub{font-size:12px;color:var(--gray);}
+
+  .arrhead{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;}
+  .arrhead h2{font-size:34px;font-weight:700;color:var(--head);}
+  .arrhead .filters{display:flex;gap:24px;align-items:center;}
+  .arrhead .filters .f{font-size:15px;color:var(--gray);}
+  .arrhead .filters .f.on{color:var(--head);font-weight:700;border-bottom:2px solid var(--head);padding-bottom:3px;}
+  .pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px 26px;}
+  .prod .pcap{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+  .prod .pcap .e{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray);}
+  .prod .pcap .t{font-size:17px;font-weight:700;color:var(--head);}
+  .prod .pcap .prow{display:flex;justify-content:space-between;align-items:center;border-top:1.5px solid var(--soft);padding-top:13px;margin-top:4px;}
+  .prod .pcap .prow .p{font-size:19px;font-weight:700;color:var(--head);}
+  .prod .pcap .prow .v{font-size:13px;color:var(--gray);}
+
+  .quote{text-align:center;background:#f4f4f4;}
+  .quote .q{font-size:34px;font-weight:700;color:var(--head);max-width:820px;margin:0 auto;line-height:1.3;}
+  .quote .by{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-top:24px;}
+
+  .trust{display:flex;}
+  .trust .ti{flex:1;text-align:center;padding:0 30px;border-left:1.5px dashed var(--dash);display:flex;flex-direction:column;align-items:center;gap:13px;}
+  .trust .ti:first-child{border-left:none;}
+  .trust .ti .rn{font-size:24px;font-weight:700;color:var(--head);}
+  .trust .ti h4{font-size:18px;font-weight:700;color:var(--head);}
+
+  .news{text-align:center;background:#f4f4f4;}
+  .news h2{font-size:32px;font-weight:700;color:var(--head);margin-bottom:14px;}
+  .news .form{display:flex;gap:12px;max-width:520px;margin:24px auto 0;}
+  .news .form .inp{flex:1;height:52px;border:1.5px solid var(--line);}
+
+  .foot{padding:54px 46px 40px;border-top:2.5px solid var(--line);background:#fafafa;}
+  .foot .ftop{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:46px;padding-bottom:38px;border-bottom:1.5px dashed var(--dash);}
+  .foot h5{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:18px;}
+  .foot .lk{font-size:15px;color:var(--ink);padding:7px 0;}
+  .foot .fbot{display:flex;justify-content:space-between;margin-top:24px;font-size:13px;color:var(--gray);}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="dlbtn" id="downloadBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"/></svg>
+    Download PNG
+  </button>
+</div>
+
+<div id="wire">
+
+  <!-- UTILITY -->
+  <div class="util pad">
+    <div class="row">
+      <span>Est. Dealers · Original Americana</span>
+      <div class="grp">
+        <span>Sell to Us</span><span>Free Appraisals</span><span>Contact</span><span>Account</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MASTHEAD (centered logo) -->
+  <div class="mast">
+    <span class="slabel" style="position:absolute;top:8px;left:16px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#c2c2c2;">Masthead — centered logo</span>
+    <div class="left"><div class="sq">⌕</div></div>
+    <div class="center"><div class="logo box">LOGO</div></div>
+    <div class="right"><div class="sq">Acct</div><div class="sq">Cart</div></div>
+  </div>
+
+  <!-- NAV (centered) -->
+  <div class="nav">
+    <div class="row">
+      <span class="it">Autographs</span>
+      <span class="it">Stocks &amp; Bonds</span>
+      <span class="it">Currency</span>
+      <span class="it">Americana</span>
+      <span class="it">Auctions</span>
+      <span class="it">Shop by Era</span>
+      <span class="it">About</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="grid">
+      <div class="col">
+        <span class="eyebrow">Featured Acquisition № 1147</span>
+        <h1>A signed fragment of history, awaiting its keeper.</h1>
+        <div class="lines">
+          <div class="bar" style="width:100%;"></div>
+          <div class="bar" style="width:88%;"></div>
+          <div class="bar" style="width:60%;"></div>
+        </div>
+        <div class="meta">
+          <div class="cell"><span class="k">Signed By</span><div class="bar dk" style="width:88px;height:14px;"></div></div>
+          <div class="cell"><span class="k">Dated</span><div class="bar dk" style="width:96px;height:14px;"></div></div>
+          <div class="cell"><span class="k">Condition</span><div class="bar dk" style="width:56px;height:14px;"></div></div>
+        </div>
+        <div class="btns">
+          <div class="btn fill">View This Piece</div>
+          <div class="btn">Browse the Collection</div>
+        </div>
+      </div>
+      <div class="heroimg">
+        <div class="seal">Provenance<br>seal</div>
+        <div class="frame"><div class="imgbox" style="height:400px;"><span class="il">Featured item scan</span></div></div>
+        <div class="cap">
+          <div class="bar sm" style="width:55%;"></div>
+          <div class="bar sm" style="width:90px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="sec">
+    <span class="slabel">Categories — catalog plates</span>
+    <div class="shead">
+      <span class="eyebrow">The Collection</span>
+      <h2>Browse by Department</h2>
+      <div class="bar sm" style="width:440px;"></div>
+    </div>
+    <div class="plates">
+      <div class="plate"><div class="imgbox" style="height:185px;"><span class="il">Image · № 01</span></div><div class="cap"><span class="t">Autographs &amp; Letters</span><span class="c">940 items</span></div></div>
+      <div class="plate"><div class="imgbox" style="height:185px;"><span class="il">Image · № 02</span></div><div class="cap"><span class="t">Stocks &amp; Bonds</span><span class="c">1,180 items</span></div></div>
+      <div class="plate"><div class="imgbox" style="height:185px;"><span class="il">Image · № 03</span></div><div class="cap"><span class="t">Currency &amp; Coins</span><span class="c">610 items</span></div></div>
+      <div class="plate"><div class="imgbox" style="height:185px;"><span class="il">Image · № 04</span></div><div class="cap"><span class="t">Historical Americana</span><span class="c">430 items</span></div></div>
+      <div class="plate"><div class="imgbox" style="height:185px;"><span class="il">Image · № 05</span></div><div class="cap"><span class="t">Western &amp; Mining</span><span class="c">290 items</span></div></div>
+      <div class="plate"><div class="imgbox" style="height:185px;"><span class="il">Image · № 06</span></div><div class="cap"><span class="t">Railroads &amp; Industry</span><span class="c">360 items</span></div></div>
+    </div>
+  </div>
+
+  <!-- ERA -->
+  <div class="sec">
+    <span class="slabel">Shop by era — timeline</span>
+    <div class="shead">
+      <span class="eyebrow">A Walk Through Time</span>
+      <h2>Shop by Era</h2>
+    </div>
+    <div class="timeline">
+      <div class="axis"></div>
+      <div class="erow">
+        <div class="era"><div class="yr">1700s</div><div class="node"></div><div class="nm">Colonial</div><div class="sub">Scrip · Charters</div></div>
+        <div class="era"><div class="yr">1800s</div><div class="node"></div><div class="nm">Young Republic</div><div class="sub">Canals · Banks</div></div>
+        <div class="era"><div class="yr">1860s</div><div class="node"></div><div class="nm">Civil War</div><div class="sub">Bonds · Letters</div></div>
+        <div class="era"><div class="yr">1880s</div><div class="node"></div><div class="nm">Gilded Age</div><div class="sub">Rails · Mining</div></div>
+        <div class="era"><div class="yr">1900s</div><div class="node"></div><div class="nm">Industrial</div><div class="sub">Auto · Oil</div></div>
+        <div class="era"><div class="yr">1920s</div><div class="node"></div><div class="nm">Twenties</div><div class="sub">Markets · Film</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARRIVALS -->
+  <div class="sec">
+    <span class="slabel">New arrivals — product grid + filters</span>
+    <div class="arrhead">
+      <div class="col" style="gap:12px;">
+        <span class="eyebrow">Fresh to the Vault</span>
+        <h2>New &amp; Notable Arrivals</h2>
+      </div>
+      <div class="filters">
+        <span class="f on">All</span><span class="f">Autographs</span><span class="f">Stocks &amp; Bonds</span><span class="f">Currency</span><span class="f">At Auction</span>
+      </div>
+    </div>
+    <div class="pgrid">
+      <div class="prod"><div class="imgbox" style="height:175px;"><span class="il">Image</span></div><div class="pcap"><span class="e">1863 · Civil War</span><span class="t">Presidential Endorsement</span><div class="prow"><span class="p">$8,500</span><span class="v">Buy Now ›</span></div></div></div>
+      <div class="prod"><div class="imgbox" style="height:175px;"><span class="il">Image · auction</span></div><div class="pcap"><span class="e">1886 · Gilded Age</span><span class="t">Standard Mining Bond</span><div class="prow"><span class="p">$320</span><span class="v">12 bids ›</span></div></div></div>
+      <div class="prod"><div class="imgbox" style="height:175px;"><span class="il">Image</span></div><div class="pcap"><span class="e">1901 · Industrial</span><span class="t">Automobile Stock</span><div class="prow"><span class="p">$1,250</span><span class="v">Buy Now ›</span></div></div></div>
+      <div class="prod"><div class="imgbox" style="height:175px;"><span class="il">Image</span></div><div class="pcap"><span class="e">1922 · Twenties</span><span class="t">Aviation Autograph</span><div class="prow"><span class="p">$4,750</span><span class="v">Buy Now ›</span></div></div></div>
+    </div>
+    <div class="center" style="margin-top:44px;"><div class="btn">View All 2,400+ Listings</div></div>
+  </div>
+
+  <!-- QUOTE -->
+  <div class="sec quote">
+    <span class="slabel">Editorial quote (navy band)</span>
+    <div class="q">“We don't merely sell documents. We pass on their stories — researched, authenticated, and ready for the next steady hand.”</div>
+    <div class="by">— The LaBarre Family</div>
+  </div>
+
+  <!-- TRUST -->
+  <div class="sec">
+    <span class="slabel">Trust row</span>
+    <div class="trust">
+      <div class="ti"><div class="rn">I</div><h4>Guaranteed Authentic</h4><div class="bar sm" style="width:80%;"></div><div class="bar sm" style="width:60%;"></div></div>
+      <div class="ti"><div class="rn">II</div><h4>Decades of Expertise</h4><div class="bar sm" style="width:80%;"></div><div class="bar sm" style="width:60%;"></div></div>
+      <div class="ti"><div class="rn">III</div><h4>Simple, Safe Returns</h4><div class="bar sm" style="width:80%;"></div><div class="bar sm" style="width:60%;"></div></div>
+      <div class="ti"><div class="rn">IV</div><h4>We Buy &amp; Appraise</h4><div class="bar sm" style="width:80%;"></div><div class="bar sm" style="width:60%;"></div></div>
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="sec news">
+    <span class="slabel">Newsletter</span>
+    <h2>First Look at New Arrivals</h2>
+    <div class="center" style="gap:8px;"><div class="bar sm" style="width:440px;"></div><div class="bar sm" style="width:360px;"></div></div>
+    <div class="form"><div class="inp"></div><div class="btn fill">Subscribe</div></div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="foot">
+    <span class="slabel" style="position:static;display:block;margin-bottom:18px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#c2c2c2;">Footer</span>
+    <div class="ftop">
+      <div class="col">
+        <div class="logo box" style="width:160px;height:54px;display:flex;align-items:center;justify-content:center;color:var(--gray);">LOGO</div>
+        <div class="col" style="gap:9px;margin-top:16px;"><div class="bar sm" style="width:90%;"></div><div class="bar sm" style="width:76%;"></div><div class="bar sm" style="width:54%;"></div></div>
+      </div>
+      <div class="col"><h5>Shop</h5><span class="lk">Autographs</span><span class="lk">Stocks &amp; Bonds</span><span class="lk">Currency &amp; Coins</span><span class="lk">Americana</span><span class="lk">Live Auctions</span></div>
+      <div class="col"><h5>Collectors</h5><span class="lk">Shop by Era</span><span class="lk">New Arrivals</span><span class="lk">Authenticity</span><span class="lk">Sell to Us</span><span class="lk">Free Appraisals</span></div>
+      <div class="col"><h5>Gallery</h5><span class="lk">Our Story</span><span class="lk">Contact</span><span class="lk">Shipping</span><span class="lk">Returns</span><span class="lk">Journal</span></div>
+    </div>
+    <div class="fbot"><span>© 2026 George H. LaBarre Galleries, Inc.</span><span>VISA · MC · AMEX · PAYPAL</span></div>
+  </div>
+
+</div>
+
+<script>
+  document.getElementById('downloadBtn').addEventListener('click', async function(){
+    const node = document.getElementById('wire');
+    const btn = this; const old = btn.innerHTML;
+    btn.textContent = 'Rendering…';
+    try{
+      await document.fonts.ready;
+      const dataUrl = await htmlToImage.toPng(node, {pixelRatio:2, backgroundColor:'#ffffff', width:node.offsetWidth, height:node.offsetHeight, cacheBust:true});
+      const a = document.createElement('a');
+      a.download = 'LaBarre-Galleries-Home-v2-Wireframe.png';
+      a.href = dataUrl; a.click();
+      btn.innerHTML = old;
+    }catch(e){ console.error(e); btn.textContent='Try again'; setTimeout(()=>btn.innerHTML=old,1500); }
+  });
+</script>
+
+</body>
+</html>

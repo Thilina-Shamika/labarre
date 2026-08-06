@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events — George H. LaBarre Galleries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/chrome.js"></script>
+</head>
+<body data-page="events">
+<script>document.write(LB.header('events'))</script>
+
+<div class="page-head"><div class="wrap">
+  <div class="breadcrumb"><a href="home.html">Home</a><span class="sep">/</span><span>Events</span></div>
+  <span class="label">Where to Find Us</span>
+  <h1>Shows, auctions &amp; open houses</h1>
+  <p>Meet George in person, browse the vault, and preview lots before they close. Here&rsquo;s where the gallery will be this season.</p>
+</div></div>
+
+<!-- FEATURED -->
+<section class="ev-hero"><div class="wrap">
+  <div class="date"><div class="mo">Sep</div><div class="day">19</div><div class="yr">2026</div></div>
+  <div class="ec">
+    <span class="label">Featured · This Month</span>
+    <h2>Rarities Mail-Bid Sale № 14 — Live Closing</h2>
+    <div class="meta">Online &amp; by phone · Bidding closes 8:00 PM EST</div>
+    <p>Our flagship catalog auction closes live. Preview more than 300 lots of signed certificates, rare bonds, and historical Americana — then bid online, by phone, or leave an absentee bid.</p>
+  </div>
+  <div class="eact"><a href="Auctions.html" class="btn btn-gold">Preview &amp; Bid</a></div>
+</div></section>
+
+<!-- LIST -->
+<section><div class="wrap">
+  <div class="shead" style="text-align:left;max-width:none;margin:0 0 34px;">
+    <span class="label" style="display:block;margin-bottom:14px;">The Calendar</span>
+    <h2 style="font-family:var(--disp);font-size:34px;font-weight:400;">Upcoming events</h2>
+  </div>
+  <div class="ev-list" id="evList"></div>
+</div></section>
+
+<!-- HOST NOTE -->
+<section class="news-sec"><div class="wrap">
+  <div class="orn" style="justify-content:center;margin-bottom:22px;max-width:150px;margin-left:auto;margin-right:auto;"><span class="ln"></span><span class="dia"></span><span class="ln"></span></div>
+  <h2>Hosting a show or society meeting?</h2>
+  <p>George is glad to speak to clubs and collector groups, exhibit at paper &amp; numismatic shows, and arrange private viewings. Get in touch to add the gallery to your event.</p>
+  <div class="cta-row" style="justify-content:center;">
+    <a href="Contact.html" class="btn btn-navy">Invite the Gallery</a>
+    <a href="Free%20Appraisals.html" class="btn btn-line">Book an Appraisal</a>
+  </div>
+</div></section>
+
+<script>document.write(LB.footer())</script>
+
+<script>
+  const events = [
+    {mo:"Oct", day:"03", yr:"2026", tag:"Paper Show", h:"Boston Antiquarian Paper & Ephemera Show", loc:"Marlborough, MA · Booth 42", p:"Two days of stocks, bonds, autographs, and Americana. Bring items for a free on-site appraisal."},
+    {mo:"Oct", day:"24", yr:"2026", tag:"Auction", h:"Rarities Mail-Bid Sale № 15 — Catalog Release", loc:"Online · Catalog mails Oct 24", p:"The next catalog goes live for preview. Request a printed copy or browse lots online ahead of the November closing."},
+    {mo:"Nov", day:"08", yr:"2026", tag:"Expo", h:"Whitman Coin & Currency Expo", loc:"Baltimore, MD · Table 118", p:"Find the gallery among the paper-money and scripophily dealers. Signed rarities on display all weekend."},
+    {mo:"Nov", day:"21", yr:"2026", tag:"Open House", h:"Collector Open House & Vault Tour", loc:"Hollis, NH · By appointment", p:"An evening in the gallery: view the vault, talk provenance with George, and preview fresh acquisitions."},
+    {mo:"Dec", day:"05", yr:"2026", tag:"Society", h:"Manuscript Society Winter Meeting", loc:"New York, NY · Guest exhibitor", p:"A guest exhibit of signed financial documents, with a short talk on reading a 19th-century bond."},
+    {mo:"Jan", day:"16", yr:"2027", tag:"Auction", h:"New Year Rarities Sale № 16 — Live Closing", loc:"Online & by phone · 8:00 PM EST", p:"The winter flagship auction closes live, led by presidential autographs and Gilded-Age railroad bonds."},
+  ];
+  document.getElementById('evList').innerHTML = events.map(e=>`
+    <div class="ev">
+      <div class="date"><div class="mo">${e.mo}</div><div class="day">${e.day}</div><div class="yr">${e.yr}</div></div>
+      <div class="info">
+        <span class="tag">${e.tag}</span>
+        <h3>${e.h}</h3>
+        <div class="loc"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>${e.loc}</div>
+        <p>${e.p}</p>
+      </div>
+      <div class="act"><a href="Contact.html" class="btn btn-line">Details &amp; RSVP</a></div>
+    </div>`).join('');
+</script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auctions — George H. LaBarre Galleries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/chrome.js"></script>
+
+</head>
+<body data-page="auctions">
+<script>document.write(LB.header('auctions'))</script>
+<div class="page-head"><div class="wrap">
+  <div class="breadcrumb"><a href="home.html">Home</a><span class="sep">/</span><span>Auctions</span></div>
+  <span class="label">On the Block Now</span>
+  <h1>Auctions</h1>
+  <p>Open lots close throughout the week. Place a bid, add a lot to your watchlist, and we&rsquo;ll keep you posted as the clock runs down.</p>
+</div></div>
+<section class="auc-sec"><div class="wrap">
+  <div class="arr-head">
+    <div class="l"><span class="label">Live Now</span><h2>Open lots</h2></div>
+    <div class="auc-meta"><span class="livedot"></span><span class="lt" id="openCount">lots open · closing this week</span></div>
+  </div>
+  <div class="auc-grid" id="aucGrid"></div>
+</div></section>
+
+<!-- HOW BIDDING WORKS -->
+<section class="cats-sec"><div class="wrap">
+  <div class="shead">
+    <span class="label">Simple &amp; Transparent</span>
+    <div class="orn"><span class="ln"></span><span class="dia"></span><span class="ln"></span></div>
+    <h2>How bidding works</h2>
+    <p>New to our sales? It takes about a minute to get started, and a specialist is always a phone call away.</p>
+  </div>
+  <div class="steps-3">
+    <div class="step3"><div class="n">1</div><h3>Preview the lots</h3><p>Browse open lots online or request the printed catalog. Every piece is photographed in full and described in detail.</p></div>
+    <div class="step3"><div class="n">2</div><h3>Place your bid</h3><p>Bid online, by phone, or leave an absentee maximum. We&rsquo;ll bid on your behalf up to your limit and notify you if you&rsquo;re outbid.</p></div>
+    <div class="step3"><div class="n">3</div><h3>Win &amp; settle</h3><p>When the lot closes, we confirm by email. Pay securely and your piece ships hand-packed, fully insured, with our lifetime guarantee.</p></div>
+  </div>
+</div></section>
+
+<!-- PRICES REALIZED -->
+<section class="ed-sec"><div class="wrap">
+  <span class="label" style="color:var(--gold-soft);display:block;margin-bottom:16px;">Prices Realized</span>
+  <blockquote>Curious what pieces actually sell for? Browse the <em>archive</em> of recently settled lots.</blockquote>
+  <div class="cta-row" style="justify-content:center;margin-top:24px;">
+    <a href="Archive.html" class="btn btn-gold">View Past Results</a>
+    <a href="Contact.html" class="btn btn-line" style="color:#fbf7ec;border-color:rgba(203,178,119,.4);">Ask About a Lot</a>
+  </div>
+  <div class="orn" style="justify-content:center;margin:32px auto 0;max-width:160px;"><span class="ln" style="background:rgba(203,178,119,.4);"></span><span class="dia"></span><span class="ln" style="background:rgba(203,178,119,.4);"></span></div>
+</div></section>
+<script>document.write(LB.footer())</script>
+<script>
+
+const H=3600*1000;
+const lots=[
+ {img:"assets/col-broadway-rr.jpg",e:"Bond · New York, 1884",h:"Broadway &amp; Seventh Ave. Railroad",d:"$1,000 mortgage bond, eagle vignette.",lot:"LOT 214",bid:310,bids:14,inc:25,ends:Date.now()+30.4*H},
+ {img:"assets/col-hawaiian-bell.jpg",e:"Stock · Honolulu, 1880",h:"Hawaiian Bell Telephone Company",d:"Unissued specimen pair.",lot:"LOT 218",bid:190,bids:9,inc:10,ends:Date.now()+4.3*H},
+ {img:"assets/col-baltimore-ohio.jpg",e:"Stock · 1958 · Signed",h:"Baltimore &amp; Ohio Railroad Co.",d:"100 shares — Jack F. Chrysler.",lot:"LOT 221",bid:260,bids:11,inc:20,ends:Date.now()+51.1*H},
+ {img:"assets/col-southern-electric.jpg",e:"Bond · 1960",h:"Southern Electric Generating Co.",d:"$1,000 bond, full coupon sheet.",lot:"LOT 224",bid:95,bids:6,inc:10,ends:Date.now()+2.2*H},
+ {img:"assets/col-midwest-realty.jpg",e:"Stock · Utah, 1975",h:"Midwest Realty &amp; Finance, Inc.",d:"200 shares, green border.",lot:"LOT 227",bid:40,bids:4,inc:5,ends:Date.now()+73*H},
+ {img:"assets/col-china-book.jpg",e:"Reference · Compendium",h:"Historic Foreign Bonds of China",d:"Illustrated reference, hardbound.",lot:"LOT 230",bid:75,bids:7,inc:10,ends:Date.now()+120*H},
+];
+const ag=document.getElementById('aucGrid');
+document.getElementById('openCount').textContent=lots.length+' lots open · closing this week';
+lots.forEach((l,i)=>{
+ const c=document.createElement('div');c.className='auccard';
+ c.innerHTML=`<div class="auc-img"><span class="auc-live"><span class="d"></span>Live</span><span class="auc-lot">${l.lot}</span><div class="auc-ph"><img src="${l.img}" alt="${l.h.replace(/&amp;/g,'&')}" loading="lazy"></div></div><div class="auc-body"><span class="e">${l.e}</span><h3>${l.h}</h3><span class="d">${l.d}</span><div class="bidpanel"><div class="bid-cur"><span class="s">Current Bid · <b data-bids>${l.bids}</b> bids</span><span class="v" data-cur>$${l.bid.toLocaleString()}</span></div><div class="bid-time"><span class="s">Time Left</span><span class="v" data-time>—</span></div></div><div class="bid-actions"><button class="btn btn-navy btn-bid" data-i="${i}">Place Bid · $${(l.bid+l.inc).toLocaleString()}</button><button class="btn btn-line btn-watch" aria-label="Watch this lot"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.6-9.5-9C1 8.5 2.5 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.5 0 5 3.5 3.5 7-2.5 4.4-9.5 9-9.5 9z"/></svg></button></div></div>`;
+ ag.appendChild(c);
+});
+ag.addEventListener('click',e=>{
+ const w=e.target.closest('.btn-watch'); if(w){w.classList.toggle('on');return;}
+ const b=e.target.closest('.btn-bid'); if(!b)return;
+ const l=lots[+b.dataset.i]; l.bid+=l.inc; l.bids+=1;
+ const card=b.closest('.auccard'), cur=card.querySelector('[data-cur]');
+ cur.textContent='$'+l.bid.toLocaleString(); card.querySelector('[data-bids]').textContent=l.bids;
+ b.textContent='Place Bid · $'+(l.bid+l.inc).toLocaleString();
+ cur.classList.add('bumped'); setTimeout(()=>cur.classList.remove('bumped'),700);
+});
+function fmt(ms){if(ms<=0)return'Closed';const s=Math.floor(ms/1000),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),x=s%60;return d>0?d+'d '+String(h).padStart(2,'0')+'h '+String(m).padStart(2,'0')+'m':String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(x).padStart(2,'0');}
+function tick(){document.querySelectorAll('#aucGrid .auccard').forEach((c,i)=>{const left=lots[i].ends-Date.now();const el=c.querySelector('[data-time]');el.textContent=fmt(left);el.classList.toggle('urgent',left>0&&left<H);});}
+tick(); setInterval(tick,1000);
+</script>
+</body>
+</html>

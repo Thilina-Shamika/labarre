@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testimonials — George H. LaBarre Galleries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/chrome.js"></script>
+</head>
+<body data-page="testimonials">
+<script>document.write(LB.header('testimonials'))</script>
+
+<div class="page-head"><div class="wrap">
+  <div class="breadcrumb"><a href="home.html">Home</a><span class="sep">/</span><span>Testimonials</span></div>
+  <span class="label">In Their Words</span>
+  <h1>What collectors say</h1>
+  <p>For nearly half a century, collectors have trusted the gallery for quality, authenticity, and genuine personal service. A few notes from the mailbox.</p>
+</div></div>
+
+<!-- RATING BAND -->
+<section class="statband"><div class="wrap"><div class="statrow">
+  <div class="s"><div class="num">48+</div><div class="lb">Years serving stock, bond &amp; paper-money collectors</div></div>
+  <div class="s"><div class="num">A#1</div><div class="lb">&ldquo;First rate&rdquo; — the phrase collectors reach for most</div></div>
+  <div class="s"><div class="num">100%</div><div class="lb">Autographed items guaranteed authentic, without time limit</div></div>
+</div></div></section>
+
+<!-- QUOTES -->
+<section><div class="wrap">
+  <div class="tmasonry" id="tGrid"></div>
+</div></section>
+
+<!-- CTA -->
+<section class="cats-sec"><div class="wrap">
+  <div class="about-lead">
+    <p style="font-size:24px;">Have a note of your own to share? We&rsquo;d love to hear about the piece that found its way to your collection.</p>
+    <div class="cta-row" style="justify-content:center;margin-top:26px;">
+      <a href="Contact.html" class="btn btn-navy">Share Your Experience</a>
+      <a href="home.html" class="btn btn-line">Browse the Collection</a>
+    </div>
+  </div>
+</div></section>
+
+<script>document.write(LB.footer())</script>
+
+<script>
+  const stars = '<div class="tstars">'+Array(5).fill('<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.8 5.9 21.4l1.4-6.8L2.2 9.9l6.9-.8z"/></svg>').join('')+'</div>';
+  const quotes = [
+    {feat:true, t:"You have an awesome web site — easy to navigate, colorful, and very informative!", who:"Nancy"},
+    {t:"The note and catalogs arrived. I'm pleased with the note. Many thanks for the great catalogs — your catalogs must be the finest produced.", who:"J. H., Manheim, PA"},
+    {t:"Your site is without parallel on the web and wins, hands down, for the classiest website in any field. A quality representation of quality folks. Nicely done!", who:"F. B., Roseville, MI"},
+    {t:"Your catalogs and website are A#1 first rate. Really fine quality.", who:"C. C., Hernando, FL"},
+    {t:"George took the time to talk me through the provenance of a bond over the phone one evening. That kind of personal attention is why I keep coming back.", who:"R. M., Portland, OR"},
+    {feat:true, t:"The certificate arrived beautifully packed and exactly as described. A genuine pleasure from first email to delivery.", who:"D. L., Austin, TX"},
+    {t:"I've been collecting for thirty years and have never dealt with a more knowledgeable or honest dealer. Simply the best in the field.", who:"P. S., Chicago, IL"},
+    {t:"The authenticity guarantee gave me the confidence to buy my first signed certificate. It's now the centerpiece of my collection.", who:"A. K., Boston, MA"},
+    {t:"Fast, fair, and friendly. My grandfather's collection found the right home, and the offer was more than fair.", who:"T. W., Savannah, GA"},
+    {t:"Every catalog is an education in itself. I read them cover to cover before a single lot closes.", who:"M. B., Denver, CO"},
+    {t:"Received my order in two days, insured and immaculate. The little handwritten note was a lovely touch.", who:"E. R., Seattle, WA"},
+    {t:"A treasure trove for anyone who loves history. The Gilded-Age railroad bonds are extraordinary.", who:"G. F., Philadelphia, PA"},
+  ];
+  document.getElementById('tGrid').innerHTML = quotes.map(q=>`
+    <div class="tcard${q.feat?' feat':''}">
+      ${q.feat?stars:''}
+      <div class="mk">“</div>
+      <p>${q.t}</p>
+      <div class="who">— ${q.who}</div>
+    </div>`).join('');
+</script>
+
+</body>
+</html>

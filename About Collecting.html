@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Collecting — George H. LaBarre Galleries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/chrome.js"></script>
+</head>
+<body data-page="collecting">
+<script>document.write(LB.header('collecting'))</script>
+
+<div class="page-head"><div class="wrap">
+  <div class="breadcrumb"><a href="home.html">Home</a><span class="sep">/</span><span>About Collecting</span></div>
+  <span class="label">Specializing in Collectible Stocks, Bonds &amp; Currency</span>
+  <h1>About <span class="it">collecting</span></h1>
+  <p>We have specialized in collectible stocks and bonds for decades — offering a great way to start your own collection, or even your own business. The hobby is now known the world over as <em style="font-style:italic;">Scripophily</em>.</p>
+</div></div>
+
+<!-- INTRO -->
+<section><div class="wrap">
+  <div class="about-lead">
+    <p>Stocks and bonds have appeared on national TV, in newspapers and magazines, and in the movies. Enthusiasm for the field first took hold in Europe, and American demand has grown steadily ever since — a rich, still-young corner of collecting.</p>
+    <p style="font-size:16px;color:var(--muted);">Recommended reading: <em style="font-style:italic;">The Scripophily Guide</em> by Howard Shakespeare.</p>
+  </div>
+</div></section>
+
+<!-- WHY COLLECT -->
+<section class="cats-sec"><div class="wrap">
+  <div class="shead">
+    <span class="label">Why Collect</span>
+    <div class="orn"><span class="ln"></span><span class="dia"></span><span class="ln"></span></div>
+    <h2>Six reasons collectors are hooked</h2>
+  </div>
+  <div class="about-grid" style="grid-template-columns:repeat(2,1fr);">
+    <div class="about-card"><div class="n">History</div><h3>Pieces of the past</h3><p>Financial history is exciting and fun. Stocks and bonds financed colonial times, early shipping, the railroads, the Industrial Revolution, the automotive age, the Crash of 1929, and every decade of growth since. Nearly everyone has a relative who worked for a great company or on the railroad — this history is truly educational and a joy to hold.</p></div>
+    <div class="about-card"><div class="n">Art</div><h3>Engraved masterworks</h3><p>The engraved printing of American Bank Note, Franklin-Lee, International Bank Note and others is considered serious art. The same firms printed the world&rsquo;s paper money. These certificates decorate dens, offices, boardrooms, and corporate headquarters — and make wonderful educational tools.</p></div>
+    <div class="about-card"><div class="n">The Hunt</div><h3>Treasure-hunting appeal</h3><p>Because collecting stocks and bonds is still so new, one might say it is &ldquo;still in its infancy.&rdquo; There are bargains and little treasures waiting to be found — a fresh, vibrant hobby with room to discover.</p></div>
+    <div class="about-card"><div class="n">Value</div><h3>Strong, proven value</h3><p>Back in 1981, the most valuable collectible stock sold for $3,000; that same railroad stock signed by Commodore Cornelius Vanderbilt now sells for around $12,000, with records reaching $130,000. Next to coins, stamps, and autographs — which reach into the millions — quality collectible stocks and bonds represent very good value today.</p></div>
+    <div class="about-card"><div class="n">Rarity</div><h3>Increasingly scarce</h3><p>Genuine pieces are becoming difficult to find. Most of our inventory was acquired 10 to 25 years ago, and demand has climbed as supply has fallen. Most companies no longer issue paper certificates at all — so this is a rare chance to enter a collectible world for very little money.</p></div>
+    <div class="about-card"><div class="n">Variety</div><h3>Something for everyone</h3><p>Railroads, automotive, aviation, mining, oils, communications, insurance, banking, autographs — and certificates can be collected by state, city, or region. Every taste is served.</p></div>
+  </div>
+  <div class="about-lead" style="margin-top:44px;">
+    <p style="font-size:26px;color:var(--ink);"><em style="font-style:italic;color:var(--gold);">Most importantly</em> — collecting stocks and bonds is fun, and deeply satisfying.</p>
+    <div class="cta-row" style="justify-content:center;margin-top:24px;">
+      <a href="Stocks%20and%20Bonds.html" class="btn btn-navy">Start Your Collection</a>
+      <a href="Free%20Appraisals.html" class="btn btn-line">Free Appraisals</a>
+    </div>
+  </div>
+</div></section>
+
+<!-- MEMBERSHIPS -->
+<section><div class="wrap">
+  <div class="shead">
+    <span class="label">Recognized &amp; Trusted</span>
+    <div class="orn"><span class="ln"></span><span class="dia"></span><span class="ln"></span></div>
+    <h2>Proud members of</h2>
+  </div>
+  <div class="logo-marquee"><div class="logo-track" id="memTrack"></div></div>
+</div></section>
+
+<script>document.write(LB.footer())</script>
+
+<script src="image-slot.js"></script>
+<script>
+  const orgs = [
+    ["org-c-ana","American Numismatic Association","Life Member · 30+ years"],
+    ["org-c-bss","International Bond & Share Society","Member"],
+    ["org-c-ms","The Manuscript Society","Member"],
+    ["org-c-spmc","Society of Paper Money Collectors","Member"],
+    ["org-c-aps","American Philatelic Society","Member"],
+    ["org-c-ibns","International Bank Note Society","Member"],
+    ["org-c-pada","Professional Autograph Dealers Association","Member"],
+    ["org-c-uacc","Universal Autograph Collectors Club","Member"],
+    ["org-c-pcda","Professional Currency Dealers Association","Member"],
+    ["org-c-asda","American Stamp Dealers Association","Member"],
+    ["org-c-eph","The Ephemera Society of America","Member"],
+    ["org-c-hud","Hudson Historical Society","Hudson, MA"],
+  ];
+  const cell = (o, suf) => `<div class="logo-cell"><image-slot id="${o[0]}${suf}" placeholder="${o[1].split(' ').slice(0,3).join(' ')} logo"></image-slot><span class="nm">${o[1]}</span></div>`;
+  const track = document.getElementById('memTrack');
+  track.innerHTML = orgs.map(o=>cell(o,'')).join('') + orgs.map(o=>cell(o,'-b')).join('');
+</script>
+
+</body>
+</html>

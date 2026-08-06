@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Article — George H. LaBarre Galleries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/chrome.js"></script>
+<script src="assets/articles.js"></script>
+<script src="image-slot.js"></script>
+</head>
+<body data-page="articles">
+<script>document.write(LB.header('articles'))</script>
+<div id="artRoot"></div>
+<script>
+(function(){
+  var list = window.LB_ARTICLES, VN = window.LB_VOLNAMES;
+  var id = parseInt(new URLSearchParams(location.search).get('id'),10);
+  var i = list.findIndex(function(a){return a.id===id;});
+  if(i<0) i = 0;
+  var a = list[i], prev = list[i-1], next = list[i+1];
+  var body = a.body ? a.body :
+    '<div class="apending"><h3>This article is being set in type</h3>' +
+    '<p>We are moving the full text of every LaBarre Newsletter article onto the new site. This one is still in the queue &mdash; you can read the original in the meantime.</p>' +
+    '<a class="btn btn-line" href="http://www.glabarre.com/article.php?article_id=' + a.id + '" target="_blank" rel="noopener">Read the original<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg></a></div>';
+  var nav = function(art,dir){
+    if(!art) return '<span class="an-empty"></span>';
+    return '<a class="an ' + dir + '" href="Article.html?id=' + art.id + '"><span class="k">' + (dir==='prev'?'Previous':'Next') + '</span><b>' + art.no + ' &middot; ' + art.title + '</b></a>';
+  };
+  var same = list.filter(function(x){return x.vol===a.vol && x.id!==a.id;});
+  document.getElementById('artRoot').innerHTML =
+  '<div class="page-head"><div class="wrap">' +
+    '<div class="breadcrumb"><a href="home.html">Home</a><span class="sep">/</span><a href="Articles.html">Articles</a><span class="sep">/</span><span>Article ' + a.no + '</span></div>' +
+    '<span class="label">' + VN[a.vol] + ' &middot; Article ' + a.no + '</span>' +
+    '<h1>' + a.title + '</h1>' +
+    '<p>' + a.issue + '</p>' +
+  '</div></div>' +
+  '<section><div class="wrap"><div class="adoc">' +
+    (a.stand ? '<div class="stand">' + a.stand + '</div>' : '') +
+    '<div class="aprose">' + body + '</div>' +
+    '<p class="asrc">Originally published and printed by G. LaBarre &mdash; ' + a.issue + '.</p>' +
+    '<div class="aask"><span>Comments or questions on this article?</span><a class="btn btn-line" href="mailto:collect@glabarre.com?subject=Article%20' + a.no + '%20-%20' + encodeURIComponent(a.title.replace(/&[a-z]+;/g,"")) + '">Write to us</a></div>' +
+    '<div class="anav">' + nav(prev,'prev') + nav(next,'next') + '</div>' +
+    (same.length ? '<div class="amore"><h4>More from ' + VN[a.vol] + '</h4><div class="amore-list">' + same.map(function(x){return '<a href="Article.html?id=' + x.id + '"><span class="no">' + x.no + '</span><span class="t">' + x.title + '</span></a>';}).join('') + '</div></div>' : '') +
+    '<div class="aback"><a class="btn btn-navy" href="Articles.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All Articles</a></div>' +
+  '</div></div></section>';
+  document.querySelectorAll('.aprose img').forEach(function(im){ im.addEventListener('error', function(){ var f=im.closest('figure'); if(f) f.style.display='none'; }); });
+  document.title = 'Article ' + a.no + ' — ' + a.title.replace(/&[a-z]+;/g,'') + ' — LaBarre Galleries';
+})();
+</script>
+<script>document.write(LB.footer())</script>
+</body>
+</html>

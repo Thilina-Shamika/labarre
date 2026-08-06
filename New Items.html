@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Items — George H. LaBarre Galleries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/chrome.js"></script>
+</head>
+<body data-page="new">
+<script>document.write(LB.header('new'))</script>
+
+<div class="page-head"><div class="wrap">
+  <div class="breadcrumb"><a href="home.html">Home</a><span class="sep">/</span><span>New Items</span></div>
+  <span class="label">Fresh to the Vault</span>
+  <h1>New <span class="it">items</span></h1>
+  <p>The latest acquisitions, added as they&rsquo;re researched and photographed. Check back often — the best pieces move quickly.</p>
+</div></div>
+
+<section class="listing"><div class="wrap">
+  <div class="toolbar">
+    <span class="count"><b id="count">0</b> pieces added recently</span>
+    <div class="sort"><label>Sort</label>
+      <select id="sortSel">
+        <option value="new">Most Recent</option>
+        <option value="pl">Price: Low to High</option>
+        <option value="ph">Price: High to Low</option>
+      </select>
+    </div>
+  </div>
+  <div id="groups"></div>
+</div></section>
+
+<section class="phone-band"><div class="wrap">
+  <div class="k">Never miss a fresh arrival</div>
+  <div class="num" style="font-size:32px;">First look at new items</div>
+  <div class="em">Join the list for early access to acquisitions and upcoming auctions.</div>
+  <div class="cta-row" style="justify-content:center;margin-top:24px;">
+    <a href="home.html#newsletter" class="btn btn-gold">Join the List</a>
+    <a href="Auctions.html" class="btn btn-line" style="color:#fbf7ec;border-color:rgba(203,178,119,.4);">See Live Auctions</a>
+  </div>
+</div></section>
+
+<script>document.write(LB.footer())</script>
+
+<script>
+  const items = [
+    {img:"assets/col-broadway-rr.jpg", e:"Bond · New York, 1884", h:"Broadway & Seventh Avenue Railroad", d:"$1,000 mortgage bond, eagle vignette.", pr:375, wk:"this", days:1},
+    {img:"assets/col-hawaiian-bell.jpg", e:"Stock · Honolulu, 1880", h:"Hawaiian Bell Telephone Company", d:"Unissued specimen pair.", pr:260, wk:"this", days:2},
+    {img:"assets/col-baltimore-ohio.jpg", e:"Stock · 1958 · Signed", h:"Baltimore & Ohio Railroad, Signed", d:"100 shares — Jack F. Chrysler.", pr:290, wk:"this", days:3},
+    {img:"assets/col-southern-electric.jpg", e:"Bond · 1960", h:"Southern Electric Generating Co.", d:"$1,000 bond, full coupon sheet.", pr:120, wk:"this", days:4},
+    {img:"assets/col-china-book.jpg", e:"Reference · Compendium", h:"Historic Foreign Bonds of China", d:"Illustrated reference, hardbound.", pr:95, wk:"last", days:8},
+    {img:"assets/col-midwest-realty.jpg", e:"Stock · Utah, 1975", h:"Midwest Realty & Finance, Inc.", d:"200 shares, green border.", pr:45, wk:"last", days:9},
+    {img:"assets/col-broadway-rr.jpg", e:"Bond · 1886", h:"Standard Mining Co. Bond", d:"Steel-engraved vignette, uncancelled.", pr:320, wk:"last", days:11},
+    {img:"assets/col-baltimore-ohio.jpg", e:"Stock · 1955", h:"The Baltimore & Ohio Railroad Co.", d:"50 shares, brown border.", pr:165, wk:"last", days:12},
+    {img:"assets/col-hawaiian-bell.jpg", e:"Stock · 1880", h:"Hawaiian Bell Telephone Co.", d:"Single specimen.", pr:145, wk:"earlier", days:18},
+    {img:"assets/col-southern-electric.jpg", e:"Bond · 1962", h:"Southern Electric Generating Co.", d:"$500 series.", pr:115, wk:"earlier", days:21},
+    {img:"assets/col-midwest-realty.jpg", e:"Stock · 1974", h:"Midwest Realty & Finance", d:"100 shares.", pr:38, wk:"earlier", days:24},
+    {img:"assets/col-china-book.jpg", e:"Reference", h:"Scripophily Reference Library", d:"A working collector's shelf.", pr:110, wk:"earlier", days:27},
+  ];
+  const GROUPS = [
+    {key:"this", title:"This Week", note:"Just added"},
+    {key:"last", title:"Last Week", note:"7–14 days ago"},
+    {key:"earlier", title:"Earlier This Month", note:"Still fresh"},
+  ];
+  const card = it => `<a href="Product.html" class="prod">
+      <div class="pimg">
+        <span class="badge new">New</span>
+        <div class="pshot"><img src="${it.img}" alt="${it.h}" loading="lazy"></div>
+        <span class="zoom"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M11 8v6M8 11h6"/></svg></span>
+      </div>
+      <div class="pbody">
+        <span class="e">${it.e}</span>
+        <h3>${it.h}</h3>
+        <span class="d">${it.d}</span>
+        <div class="prow"><span class="pr"><span class="s">Buy Now</span>$${it.pr.toLocaleString()}</span><span class="add">Add to cart →</span></div>
+      </div>
+    </a>`;
+  function render(){
+    let data = items.slice();
+    const mode = document.getElementById('sortSel').value;
+    const groupsEl = document.getElementById('groups');
+    document.getElementById('count').textContent = items.length;
+    if(mode === 'new'){
+      groupsEl.innerHTML = GROUPS.map(g=>{
+        const rows = data.filter(i=>i.wk===g.key);
+        if(!rows.length) return '';
+        return `<div class="arr-group"><div class="gh"><h3>${g.title}</h3><span class="wk">${rows.length} pieces · ${g.note}</span></div><div class="pgrid">${rows.map(card).join('')}</div></div>`;
+      }).join('');
+    } else {
+      data.sort((a,b)=> mode==='pl' ? a.pr-b.pr : b.pr-a.pr);
+      groupsEl.innerHTML = `<div class="arr-group"><div class="gh"><h3>All New Items</h3><span class="wk">Sorted by price</span></div><div class="pgrid">${data.map(card).join('')}</div></div>`;
+    }
+  }
+  document.getElementById('sortSel').addEventListener('change', render);
+  render();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart &amp; Checkout — George H. LaBarre Galleries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/chrome.js"></script>
+</head>
+<body data-page="cart">
+<script>document.write(LB.header('cart'))</script>
+
+<div class="page-head"><div class="wrap">
+  <div class="breadcrumb"><a href="home.html">Home</a><span class="sep">/</span><span>Cart &amp; Checkout</span></div>
+  <span class="label">Your Selections</span>
+  <h1>Cart &amp; checkout</h1>
+  <p>Review your pieces, then complete a simple, secure checkout. Every order is packed by hand, fully insured, and backed by our lifetime authenticity guarantee.</p>
+</div></div>
+
+<section class="listing"><div class="wrap">
+  <div class="cart-layout" id="cartLayout">
+
+    <!-- LEFT: items + checkout -->
+    <div>
+      <div class="cart-head">
+        <h2>In your cart</h2>
+        <span class="n"><span id="itemCount">0</span> items</span>
+      </div>
+      <div id="cartItems"></div>
+      <div class="cart-empty" id="cartEmpty">Your cart is empty. <a href="Stocks%20and%20Bonds.html" style="color:var(--gold);border-bottom:1px solid var(--line-2);">Browse the collection →</a></div>
+      <div class="cart-cont">
+        <a href="Stocks%20and%20Bonds.html" class="btn btn-line">Continue Browsing</a>
+      </div>
+
+      <div class="checkout" id="checkoutForm">
+        <h2><span class="st">1</span>Contact</h2>
+        <div class="form-grid">
+          <div class="field"><label>Full Name</label><input type="text" placeholder="Your name"></div>
+          <div class="field"><label>Email</label><input type="email" placeholder="you@example.com"></div>
+          <div class="field full"><label>Phone</label><input type="tel" placeholder="(000) 000-0000"></div>
+        </div>
+
+        <h2><span class="st">2</span>Shipping Address</h2>
+        <div class="form-grid">
+          <div class="field full"><label>Street Address</label><input type="text" placeholder="Street and number"></div>
+          <div class="field"><label>City</label><input type="text" placeholder="City"></div>
+          <div class="field"><label>State / Region</label><input type="text" placeholder="State"></div>
+          <div class="field"><label>ZIP / Postal Code</label><input type="text" placeholder="ZIP"></div>
+          <div class="field"><label>Country</label><select><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Other</option></select></div>
+        </div>
+
+        <h2><span class="st">3</span>Payment</h2>
+        <div class="form-grid">
+          <div class="field full"><label>Card Number</label><input type="text" placeholder="•••• •••• •••• ••••"></div>
+          <div class="field"><label>Expiry</label><input type="text" placeholder="MM / YY"></div>
+          <div class="field"><label>CVC</label><input type="text" placeholder="•••"></div>
+          <div class="field full"><label>Name on Card</label><input type="text" placeholder="As it appears on the card"></div>
+        </div>
+        <div class="pay-row">Accepted · VISA · MC · AMEX · PAYPAL</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: summary -->
+    <div class="summary" id="summary">
+      <h3>Order summary</h3>
+      <div class="srow"><span class="k">Subtotal</span><span class="v" id="sSub">$0</span></div>
+      <div class="srow" id="shipRow"><span class="k">Shipping</span><span class="v" id="sShip">$0</span></div>
+      <div class="srow"><span class="k">Estimated Tax</span><span class="v" id="sTax">$0</span></div>
+      <p class="ship-note" id="shipNote"></p>
+      <div class="promo">
+        <input type="text" id="promo" placeholder="Promo code">
+        <button class="btn btn-line" id="applyPromo" type="button">Apply</button>
+      </div>
+      <div class="srow total"><span class="k">Total</span><span class="v" id="sTotal">$0</span></div>
+      <button class="btn btn-navy btn-checkout" id="placeOrder" type="button">Place Secure Order
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+      <div class="trust-line"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v6c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg>Guaranteed authentic · Insured shipping</div>
+      <div class="trust-line"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 10h18M7 15h4M5 6h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/></svg>Secure checkout · Encrypted payment</div>
+    </div>
+  </div>
+
+  <!-- CONFIRMATION -->
+  <div class="confirm" id="confirm">
+    <div class="mk"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 12 5 5 9-11"/></svg></div>
+    <h2>Thank you — your order is placed.</h2>
+    <p>A confirmation is on its way to your email. We&rsquo;ll pack your pieces by hand and send tracking as soon as they leave the gallery.</p>
+    <a href="home.html" class="btn btn-navy">Back to Home</a>
+  </div>
+</div></section>
+
+<script>document.write(LB.footer())</script>
+
+<script>
+  const cart = [
+    {img:"assets/col-broadway-rr.jpg", e:"Bond · New York, 1884", h:"Broadway & Seventh Avenue Railroad", d:"$1,000 Mortgage Bond, eagle vignette", price:375, qty:1},
+    {img:"assets/col-baltimore-ohio.jpg", e:"Stock · 1958 · Signed", h:"The Baltimore & Ohio Railroad Co.", d:"100 Shares — Jack F. Chrysler", price:290, qty:1},
+  ];
+  const fmt = n => '$' + n.toLocaleString();
+  const itemsEl = document.getElementById('cartItems');
+  const emptyEl = document.getElementById('cartEmpty');
+  let promoOn = false;
+
+  function render(){
+    itemsEl.innerHTML = cart.map((it,i)=>`
+      <div class="citem">
+        <div class="cthumb"><img src="${it.img}" alt="${it.h}"></div>
+        <div class="cinfo">
+          <span class="e">${it.e}</span>
+          <h3>${it.h}</h3>
+          <div class="d">${it.d}</div>
+          <span class="rm" data-rm="${i}">Remove</span>
+        </div>
+        <div class="cright">
+          <div class="qty">
+            <button data-dec="${i}" aria-label="Decrease">−</button>
+            <span class="qn">${it.qty}</span>
+            <button data-inc="${i}" aria-label="Increase">+</button>
+          </div>
+          <span class="lineprice">${fmt(it.price*it.qty)}</span>
+        </div>
+      </div>`).join('');
+    const count = cart.reduce((s,i)=>s+i.qty,0);
+    document.getElementById('itemCount').textContent = count;
+    const badge = document.querySelector('.cartwrap .c'); if(badge) badge.textContent = count;
+    const has = cart.length>0;
+    emptyEl.style.display = has ? 'none':'block';
+    document.getElementById('summary').style.opacity = has ? '1':'.5';
+    document.getElementById('checkoutForm').style.display = has ? '':'none';
+    totals();
+  }
+  function totals(){
+    const sub = cart.reduce((s,i)=>s+i.price*i.qty,0);
+    const ship = sub>=500 || sub===0 ? 0 : 12;
+    const discount = promoOn ? Math.round(sub*0.1) : 0;
+    const tax = 0;
+    document.getElementById('sSub').textContent = fmt(sub);
+    const shipRow = document.getElementById('shipRow');
+    if(ship===0 && sub>0){ shipRow.classList.add('free'); document.getElementById('sShip').textContent = 'Free'; }
+    else { shipRow.classList.remove('free'); document.getElementById('sShip').textContent = fmt(ship); }
+    document.getElementById('sTax').textContent = fmt(tax);
+    document.getElementById('shipNote').textContent = sub>0 && sub<500 ? `Add ${fmt(500-sub)} more for free U.S. shipping.` : (sub>=500 ? 'You qualify for free U.S. shipping.' : '');
+    let total = sub + ship + tax - discount;
+    const totalEl = document.getElementById('sTotal');
+    totalEl.textContent = fmt(total) + (discount?`  ·  −${fmt(discount)}`:'');
+  }
+  itemsEl.addEventListener('click', e=>{
+    const inc=e.target.closest('[data-inc]'), dec=e.target.closest('[data-dec]'), rm=e.target.closest('[data-rm]');
+    if(inc){ cart[+inc.dataset.inc].qty++; render(); }
+    else if(dec){ const it=cart[+dec.dataset.dec]; if(it.qty>1){it.qty--; render();} }
+    else if(rm){ cart.splice(+rm.dataset.rm,1); render(); }
+  });
+  document.getElementById('applyPromo').addEventListener('click', ()=>{
+    const v = document.getElementById('promo').value.trim().toUpperCase();
+    const btn = document.getElementById('applyPromo');
+    if(v && !promoOn){ promoOn=true; btn.textContent='Applied ✓'; btn.classList.add('btn-gold'); btn.classList.remove('btn-line'); totals(); }
+  });
+  document.getElementById('placeOrder').addEventListener('click', ()=>{
+    if(cart.length===0) return;
+    document.getElementById('cartLayout').style.display='none';
+    document.getElementById('confirm').style.display='block';
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+  render();
+</script>
+
+</body>
+</html>
