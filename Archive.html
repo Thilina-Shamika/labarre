@@ -9,6 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 <script src="assets/chrome.js"></script>
+<script src="assets/inventory.js"></script>
+<script src="assets/search.js"></script>
 
 </head>
 <body data-page="archive">
@@ -21,7 +23,7 @@
 </div></div>
 <section class="sold-sec"><div class="wrap">
   <div class="arr-head">
-    <div class="l"><span class="label">Sold &amp; Settled</span><h2>Recently placed</h2></div>
+    <div class="l"><span class="label">Sold &amp; Settled</span><h2>Recently Placed</h2></div>
     <div class="cta-row"><a href="Sell to Us.html" class="btn btn-line">Offer Us an Item</a></div>
   </div>
   <div class="sold-grid" id="soldGrid"></div>
@@ -46,7 +48,7 @@ const items=[
 ];
 const sg=document.getElementById('soldGrid'); const START=8,BATCH=4; let shown=START;
 function render(){
- sg.innerHTML=items.slice(0,shown).map(s=>`<a href="Product.html" class="soldcard"><div class="sold-img"><div class="sold-ph"><img src="${s.img}" alt="${s.h.replace(/&amp;/g,'&')}" loading="lazy"></div></div><div class="sold-cap"><span class="e">${s.e}</span><h4>${s.h}</h4><div class="sold-acts"><button class="btn btn-line" type="button">Ask a Question</button><button class="btn btn-navy" type="button">Notify Me</button></div></div></a>`).join('');
+ sg.innerHTML=items.slice(0,shown).map(s=>`<a href="#" class="soldcard"><div class="sold-img"><div class="sold-ph"><img src="${s.img}" alt="${s.h.replace(/&amp;/g,'&')}" loading="lazy"></div></div><div class="sold-cap"><span class="e">${s.e}</span><h4>${s.h}</h4><div class="sold-acts"><button class="btn btn-line" type="button">Ask a Question</button><button class="btn btn-navy" type="button">Notify Me</button></div></div></a>`).join('');
  const left=items.length-shown, btn=document.getElementById('loadMore'), rem=document.getElementById('rem');
  if(left<=0){btn.style.display='none';rem.textContent='Showing all '+items.length+' pieces';}else{rem.textContent=left+' more in the archive';}
 }

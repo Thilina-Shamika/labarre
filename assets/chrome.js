@@ -11,8 +11,10 @@
     {label:"Americana",         href:"Americana.html",        page:"americana"},
     {label:"Auctions",          href:"Auctions.html",         page:"auctions"},
     {label:"Shop by Decade",    href:"Shop by Decade.html",   page:"decades"},
+    {label:"Archive",           href:"Archive.html",          page:"archive"},
     {label:"Events",            href:"Events.html",           page:"events"},
     {label:"Testimonials",      href:"Testimonials.html",     page:"testimonials"},
+    {label:"About Collecting",  href:"About Collecting.html", page:"collecting"},
     {label:"About",             href:"About.html",            page:"about"},
   ];
 
@@ -132,6 +134,14 @@
     <a href="Free Appraisals.html">Free Appraisals</a>
     <a href="Contact.html">Contact &amp; Help</a>
     <a href="Account.html">Account</a>
+    <div class="langpick" id="langPick">
+      <button class="lbtn" id="langBtn" aria-haspopup="listbox" aria-expanded="false">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 3 2.6 15 0 18M12 3c-2.6 3-2.6 15 0 18"/></svg>
+        <span id="langNow">English</span>
+        <span class="lcar"></span>
+      </button>
+      <div class="lmenu" id="langMenu" role="listbox"></div>
+    </div>
   </div>
 </div></div>
 
@@ -172,18 +182,19 @@
       </select>
     </div>
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-    <input type="text" id="searchInput" placeholder="Search 2,400+ signed letters, certificates, currency &amp; bonds…">
+    <input type="text" id="searchInput" placeholder="Search certificates, autographs, currency…">
     <button class="btn btn-navy" type="submit">Search
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </button>
   </form>
   <div class="searchhints">
     <span class="h">Popular searches</span>
-    <a>Lincoln signed</a>
-    <a>Confederate currency</a>
-    <a>Mining bonds</a>
-    <a>Railroad stocks</a>
-    <a>Aviation autographs</a>
+    <a>Lincoln Signed</a>
+    <a>Confederate Currency</a>
+    <a>Mining Bonds</a>
+    <a>Railroad Stocks</a>
+    <a>Aviation Autographs</a>
+    <a class="advlink" href="Search.html">Advanced search →</a>
   </div>
 </div></div>`;
   }
@@ -219,6 +230,7 @@
       <a href="Wholesale.html">Wholesale</a>
       <a href="Shop by Decade.html">Shop by Decade</a>
       <a href="Archive.html">Archive</a>
+      <a href="Search.html">Advanced Search</a>
       <a href="Articles.html">Articles</a>
       <a href="Related Links.html">Related Links</a>
       <a href="Authenticity Guarantee.html">Authenticity Guarantee</a>
@@ -348,11 +360,50 @@
       e.preventDefault(); open();
     });
 
+    // ===== LANGUAGE PICKER =====
+    (function(){
+      const LANGS = [
+        ["en","English","English"],
+        ["es","Español","Spanish"],
+        ["de","Deutsch","German"],
+        ["fr","Français","French"],
+        ["it","Italiano","Italian"],
+        ["pt","Português","Portuguese"],
+        ["zh","中文","Chinese"],
+        ["ja","日本語","Japanese"]
+      ];
+      const wrap = document.getElementById('langPick');
+      if(!wrap) return;
+      const btn = document.getElementById('langBtn'), menu = document.getElementById('langMenu'), now = document.getElementById('langNow');
+      let cur = localStorage.getItem('lb_lang') || 'en';
+      function draw(){
+        const c = LANGS.find(l=>l[0]===cur) || LANGS[0];
+        now.textContent = c[1];
+        document.documentElement.setAttribute('lang', cur);
+        menu.innerHTML = LANGS.map(function(l){
+          return '<button role="option" data-l="'+l[0]+'"'+(l[0]===cur?' class="on" aria-selected="true"':'')+'><span class="nm">'+l[1]+'</span><span class="en">'+l[2]+'</span></button>';
+        }).join('') + '<span class="lnote">Machine translation. Catalogue descriptions stay in English — <a href="Contact.html">ask us</a> for help in your language.</span>';
+      }
+      function open(v){ wrap.classList.toggle('on', v); btn.setAttribute('aria-expanded', v?'true':'false'); }
+      btn.addEventListener('click', function(e){ e.stopPropagation(); open(!wrap.classList.contains('on')); });
+      menu.addEventListener('click', function(e){
+        const b = e.target.closest('[data-l]'); if(!b) return;
+        cur = b.dataset.l;
+        localStorage.setItem('lb_lang', cur);
+        draw(); open(false);
+        document.dispatchEvent(new CustomEvent('lb:lang', {detail:{lang:cur}}));
+      });
+      document.addEventListener('click', function(){ open(false); });
+      draw();
+    })();
+
     // expose for product/category "add to cart"
     window.LBcart = {
       add:function(item){
-        var ex = cart.find(function(c){return c.h===item.h;});
-        if(ex){ ex.qty += (item.qty||1); } else { cart.push(Object.assign({qty:1}, item)); }
+        var key = function(c){ return c.sku ? 'sku:'+c.sku : 'h:'+c.h; };
+        var ex = cart.find(function(c){ return key(c)===key(item); });
+        if(ex){ ex.qty += (item.qty||1); ex.price = item.price; ex.e = item.e || ex.e; ex.img = item.img || ex.img; }
+        else { cart.push(Object.assign({qty:1}, item)); }
         render(); open();
       },
       open:open, close:close, render:render

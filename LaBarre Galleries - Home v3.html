@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>George H. LaBarre Galleries — Original Financial &amp; Historical Americana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<style>
+  :root{
+    --ink:#1a1a1a;
+    --ink-2:#3c3c3c;
+    --gray:#8a8a8a;
+    --gray-2:#b4b4b4;
+    --line:#1a1a1a;
+    --hair:#dcdcdc;
+    --dash:#c8c8c8;
+    --bg:#ffffff;
+    --bg-2:#f6f6f4;
+    --navy:#1d2c4d;
+    --navy-deep:#142038;
+    --gold:#9c7d2e;
+    --sans:"Archivo", "Helvetica Neue", Arial, sans-serif;
+    --mono:"IBM Plex Mono", ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--sans);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.5;}
+  img{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1320px;margin:0 auto;padding:0 48px;}
+
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gray);font-weight:500;display:inline-flex;align-items:center;gap:11px;}
+  .eyebrow::before{content:"";width:7px;height:7px;background:var(--gold);flex:none;}
+  .eyebrow.center{justify-content:center;}
+
+  .btn{font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.02em;padding:0 28px;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);transition:all .18s;}
+  .btn:hover{background:var(--ink);color:#fff;}
+  .btn.primary{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .btn.primary:hover{background:var(--navy-deep);border-color:var(--navy-deep);}
+  .btn.sm{height:44px;padding:0 22px;font-size:13px;}
+
+  /* ===== UTILITY ===== */
+  .util{border-bottom:1.5px solid var(--line);}
+  .util .wrap{display:flex;justify-content:space-between;align-items:center;height:50px;}
+  .util .grp{display:flex;gap:34px;}
+  .util .grp span, .util .grp a{font-size:13px;color:var(--gray);letter-spacing:.01em;}
+  .util .grp.r a{transition:color .18s;}
+  .util .grp.r a:hover{color:var(--ink);}
+
+  /* ===== HEADER ===== */
+  header.site{background:var(--bg);}
+  .head-row{display:flex;align-items:center;gap:34px;padding:24px 0;}
+  .brand{flex:none;display:flex;align-items:center;}
+  .brand img{height:64px;width:auto;display:block;border:1px solid var(--hair);}
+  .searchgrp{flex:1;display:flex;align-items:stretch;height:60px;border:1.5px solid var(--line);max-width:760px;}
+  .searchgrp .cats{display:flex;align-items:center;gap:9px;padding:0 22px;border-right:1.5px solid var(--line);font-size:14px;font-weight:600;white-space:nowrap;cursor:pointer;}
+  .searchgrp .field{flex:1;border:none;outline:none;padding:0 20px;font-family:var(--sans);font-size:15px;color:var(--ink);background:transparent;}
+  .searchgrp .field::placeholder{color:var(--gray-2);}
+  .searchgrp .sbtn{display:flex;align-items:center;gap:9px;padding:0 30px;background:var(--navy);color:#fff;font-weight:700;font-size:14px;border:none;cursor:pointer;transition:background .18s;}
+  .searchgrp .sbtn:hover{background:var(--navy-deep);}
+  .head-icons{display:flex;gap:18px;flex:none;}
+  .head-icons .ic{display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;color:var(--ink);}
+  .head-icons .ic .sq{width:42px;height:42px;border:1.5px solid var(--line);display:grid;place-items:center;transition:all .18s;}
+  .head-icons .ic:hover .sq{background:var(--ink);color:#fff;}
+  .head-icons .ic span{font-size:12px;color:var(--gray);}
+
+  /* ===== NAV ===== */
+  nav.main{border-top:1.5px solid var(--line);border-bottom:2.5px solid var(--line);position:sticky;top:0;z-index:40;background:var(--bg);}
+  nav.main .wrap{display:flex;align-items:center;justify-content:space-between;height:70px;}
+  nav.main .menu{display:flex;align-items:center;height:100%;}
+  nav.main .menu a{display:flex;align-items:center;gap:7px;font-weight:700;font-size:15px;padding:0 26px;height:30px;border-left:1.5px dashed var(--dash);color:var(--ink);transition:color .18s;}
+  nav.main .menu a:first-child{border-left:none;padding-left:0;}
+  nav.main .menu a:hover{color:var(--navy);}
+  nav.main .phone{font-family:var(--mono);font-weight:500;font-size:16px;display:flex;align-items:center;gap:9px;}
+
+  /* ===== HERO ===== */
+  .hero{padding:74px 0 86px;}
+  .hero .wrap{display:grid;grid-template-columns:1.18fr 1fr;gap:80px;align-items:start;}
+  .hero .eyebrow{margin-bottom:26px;}
+  .hero h1{font-size:72px;line-height:.99;font-weight:800;letter-spacing:-.022em;color:var(--ink);margin-bottom:30px;text-wrap:balance;}
+  .hero .lede{font-size:19px;line-height:1.6;color:var(--ink-2);max-width:48ch;margin-bottom:34px;}
+  .hero .btns{display:flex;gap:16px;margin-bottom:42px;}
+  .hero .stats{display:flex;gap:60px;padding-top:30px;border-top:1.5px dashed var(--dash);}
+  .hero .stats .n{font-size:34px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1;}
+  .hero .stats .k{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--gray);margin-top:9px;text-transform:uppercase;}
+
+  /* featured card */
+  .fcard{border:1.5px solid var(--line);padding:30px;}
+  .fcard .ftag{display:inline-flex;align-items:center;gap:9px;border:1.5px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:9px 15px;margin-bottom:24px;}
+  .fcard .ftag::before{content:"";width:6px;height:6px;background:var(--gold);}
+  .fcard .fimg{position:relative;border:1px solid var(--hair);overflow:hidden;}
+  .fcard image-slot{width:100%;height:360px;}
+  .fcard .fnum{position:absolute;top:0;left:0;font-family:var(--mono);font-size:11px;letter-spacing:.12em;background:var(--bg);border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:7px 12px;color:var(--gray);}
+  .fcard h3{font-size:24px;font-weight:700;letter-spacing:-.01em;margin:24px 0 8px;}
+  .fcard .fmeta{font-family:var(--mono);font-size:12px;color:var(--gray);letter-spacing:.04em;margin-bottom:22px;}
+  .fcard .frow{display:flex;justify-content:space-between;align-items:center;padding-top:22px;border-top:1.5px dashed var(--dash);}
+  .fcard .frow .price{font-size:24px;font-weight:800;letter-spacing:-.01em;}
+  .fcard .frow .price .c{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--gray);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:3px;}
+
+  /* ===== SECTIONS ===== */
+  section{padding:90px 0;border-top:1.5px dashed var(--dash);}
+  .shead{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;gap:30px;flex-wrap:wrap;}
+  .shead .l .eyebrow{margin-bottom:16px;}
+  .shead h2{font-size:42px;font-weight:800;letter-spacing:-.02em;line-height:1;}
+  .shead .link{font-family:var(--mono);font-size:13px;letter-spacing:.06em;color:var(--ink);display:flex;align-items:center;gap:9px;border-bottom:1.5px solid var(--ink);padding-bottom:5px;transition:gap .2s;}
+  .shead .link:hover{gap:14px;}
+
+  /* categories */
+  .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .cat{border:1.5px solid var(--line);background:var(--bg);cursor:pointer;display:flex;flex-direction:column;transition:transform .2s;}
+  .cat:hover{transform:translateY(-4px);}
+  .cat .ci{position:relative;overflow:hidden;border-bottom:1.5px solid var(--line);}
+  .cat image-slot{width:100%;height:215px;transition:transform .6s cubic-bezier(.2,.7,.2,1);}
+  .cat:hover image-slot{transform:scale(1.05);}
+  .cat .cnum{position:absolute;top:0;left:0;font-family:var(--mono);font-size:11px;letter-spacing:.12em;background:var(--bg);border-right:1.5px solid var(--line);border-bottom:1.5px solid var(--line);padding:7px 12px;}
+  .cat .cb{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;}
+  .cat .cb h3{font-size:20px;font-weight:700;letter-spacing:-.01em;}
+  .cat .cb .cc{font-family:var(--mono);font-size:12px;color:var(--gray);}
+  .cat .cb .arr{transition:transform .2s;}
+  .cat:hover .cb .arr{transform:translateX(4px);color:var(--navy);}
+
+  /* era index */
+  .era-wrap{border:1.5px solid var(--line);display:grid;grid-template-columns:repeat(6,1fr);}
+  .era{padding:30px 22px;border-left:1.5px dashed var(--dash);cursor:pointer;transition:background .2s;}
+  .era:first-child{border-left:none;}
+  .era:hover{background:var(--bg-2);}
+  .era .yr{font-size:34px;font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:14px;}
+  .era:hover .yr{color:var(--navy);}
+  .era .nm{font-size:14px;font-weight:700;margin-bottom:6px;}
+  .era .sub{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--gray);}
+
+  /* arrivals */
+  .filters{display:flex;gap:24px;align-items:center;flex-wrap:wrap;}
+  .filters a{font-family:var(--mono);font-size:13px;letter-spacing:.04em;color:var(--gray);cursor:pointer;padding-bottom:5px;border-bottom:1.5px solid transparent;transition:all .18s;}
+  .filters a:hover{color:var(--ink);}
+  .filters a.on{color:var(--ink);border-bottom-color:var(--ink);font-weight:500;}
+  .pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;}
+  .prod{border:1.5px solid var(--line);cursor:pointer;display:flex;flex-direction:column;transition:transform .2s;}
+  .prod:hover{transform:translateY(-4px);}
+  .prod .pi{position:relative;overflow:hidden;border-bottom:1.5px solid var(--line);}
+  .prod image-slot{width:100%;height:215px;transition:transform .6s cubic-bezier(.2,.7,.2,1);}
+  .prod:hover image-slot{transform:scale(1.05);}
+  .prod .tag{position:absolute;top:0;left:0;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;background:var(--bg);border-right:1.5px solid var(--line);border-bottom:1.5px solid var(--line);padding:7px 11px;}
+  .prod .tag.auc{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .prod .pb{padding:18px 20px;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .prod .pb .e{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);}
+  .prod .pb h3{font-size:18px;font-weight:700;letter-spacing:-.01em;line-height:1.15;}
+  .prod .pb .prow{margin-top:auto;padding-top:14px;border-top:1.5px dashed var(--dash);display:flex;justify-content:space-between;align-items:baseline;}
+  .prod .pb .price{font-size:20px;font-weight:800;letter-spacing:-.01em;}
+  .prod .pb .v{font-family:var(--mono);font-size:11px;color:var(--gray);}
+  .arr-cta{display:flex;justify-content:center;margin-top:50px;}
+
+  /* quote band */
+  .quote{background:var(--navy);color:#fff;border:none;text-align:center;}
+  .quote .eyebrow{color:#c9d3e6;justify-content:center;margin-bottom:30px;}
+  .quote .eyebrow::before{background:var(--gold);}
+  .quote blockquote{font-size:42px;font-weight:700;letter-spacing:-.018em;line-height:1.25;max-width:980px;margin:0 auto;text-wrap:balance;}
+  .quote .by{font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#9fb0cc;margin-top:34px;}
+
+  /* trust */
+  .trust-grid{border:1.5px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);}
+  .ti{padding:34px 30px;border-left:1.5px dashed var(--dash);}
+  .ti:first-child{border-left:none;}
+  .ti .rn{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.1em;margin-bottom:18px;}
+  .ti h4{font-size:19px;font-weight:700;letter-spacing:-.01em;margin-bottom:10px;}
+  .ti p{font-size:14px;color:var(--ink-2);line-height:1.55;}
+
+  /* newsletter */
+  .news{text-align:center;}
+  .news h2{font-size:40px;font-weight:800;letter-spacing:-.02em;margin-bottom:14px;}
+  .news p{color:var(--ink-2);font-size:17px;max-width:50ch;margin:0 auto 30px;}
+  .news form{display:flex;max-width:540px;margin:0 auto;border:1.5px solid var(--line);height:58px;}
+  .news input{flex:1;border:none;outline:none;padding:0 22px;font-family:var(--sans);font-size:15px;}
+  .news button{border:none;background:var(--navy);color:#fff;font-weight:700;font-size:14px;padding:0 32px;cursor:pointer;transition:background .18s;}
+  .news button:hover{background:var(--navy-deep);}
+
+  /* footer */
+  footer.site{border-top:2.5px solid var(--line);padding:64px 0 36px;}
+  .ftop{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:48px;padding-bottom:42px;border-bottom:1.5px dashed var(--dash);}
+  .fbrand img{height:54px;border:1px solid var(--hair);margin-bottom:18px;}
+  .fbrand p{color:var(--ink-2);font-size:14px;line-height:1.6;max-width:34ch;}
+  .fcol h5{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-bottom:18px;}
+  .fcol a{display:block;font-size:15px;padding:7px 0;color:var(--ink);transition:color .18s;}
+  .fcol a:hover{color:var(--navy);}
+  .fbot{display:flex;justify-content:space-between;align-items:center;padding-top:24px;font-family:var(--mono);font-size:12px;color:var(--gray);letter-spacing:.04em;gap:20px;flex-wrap:wrap;}
+
+  @media(max-width:1080px){
+    .hero .wrap{grid-template-columns:1fr;gap:56px;}
+    .cat-grid,.pgrid{grid-template-columns:repeat(2,1fr);}
+    .era-wrap{grid-template-columns:repeat(3,1fr);}
+    .era:nth-child(4),.era:nth-child(5),.era:nth-child(6){border-top:1.5px dashed var(--dash);}
+    .era:nth-child(4){border-left:none;}
+    .trust-grid{grid-template-columns:repeat(2,1fr);}
+    .ti:nth-child(3){border-left:none;}
+    .ti:nth-child(n+3){border-top:1.5px dashed var(--dash);}
+    .head-icons{display:none;}
+    .ftop{grid-template-columns:1fr 1fr;gap:34px;}
+    nav.main .menu a:nth-child(n+4){display:none;}
+  }
+  @media(max-width:640px){
+    .wrap{padding:0 22px;}
+    .hero h1{font-size:46px;}
+    .shead h2{font-size:32px;}
+    .quote blockquote{font-size:28px;}
+    .cat-grid,.pgrid{grid-template-columns:1fr;}
+    .era-wrap{grid-template-columns:repeat(2,1fr);}
+    .searchgrp .cats{display:none;}
+    .news form{flex-direction:column;height:auto;}
+    .news button{height:54px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- UTILITY -->
+<div class="util">
+  <div class="wrap">
+    <div class="grp">
+      <span>Since 1965</span>
+      <span>Authenticity Guaranteed</span>
+      <span>Free Shipping over $250</span>
+    </div>
+    <div class="grp r">
+      <a href="#">Appraisals</a>
+      <a href="#">Consignment</a>
+      <a href="#">Want Lists</a>
+      <a href="#">Help</a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="site">
+  <div class="wrap head-row">
+    <a href="#" class="brand"><img src="assets/labarre-logo.png" alt="George H. LaBarre Galleries, Inc."></a>
+    <div class="searchgrp">
+      <div class="cats">All Categories
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <input class="field" type="text" placeholder="Search autographs, certificates, currency…">
+      <button class="sbtn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        Search
+      </button>
+    </div>
+    <div class="head-icons">
+      <div class="ic"><div class="sq"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.3 3.1-6 7-6s7 2.7 7 6"/></svg></div><span>Account</span></div>
+      <div class="ic"><div class="sq"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-4.5-7-9.5A3.5 3.5 0 0 1 12 8a3.5 3.5 0 0 1 7 3.5C19 16.5 12 21 12 21z"/></svg></div><span>Saved</span></div>
+      <div class="ic"><div class="sq"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M6 6 5 3H2"/></svg></div><span>Cart</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="main">
+  <div class="wrap">
+    <div class="menu">
+      <a href="#categories">Shop All Categories
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg>
+      </a>
+      <a href="#arrivals">Live Auctions</a>
+      <a href="#arrivals">New Arrivals</a>
+      <a href="#era">Browse by Era</a>
+      <a href="#trust">Appraisals &amp; Consignment</a>
+    </div>
+    <div class="phone">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L20 18l2 5-4 0A14 14 0 0 1 5 8z"/></svg>
+      1–800–717–9529
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="border-top:none;">
+  <div class="wrap">
+    <div class="lead">
+      <span class="eyebrow">Featured Acquisition · Lot 1147</span>
+      <h1>A signed fragment of history.</h1>
+      <p class="lede">For over half a century we have placed authentic letters, certificates, and ephemera — handled by the figures who shaped a nation — into the hands of collectors who treasure them.</p>
+      <div class="btns">
+        <a href="#categories" class="btn primary">Shop the Collection</a>
+        <a href="#arrivals" class="btn">View Live Auctions</a>
+      </div>
+      <div class="stats">
+        <div><div class="n">60+</div><div class="k">Years</div></div>
+        <div><div class="n">40k+</div><div class="k">Pieces sold</div></div>
+        <div><div class="n">100%</div><div class="k">Guaranteed</div></div>
+      </div>
+    </div>
+    <div class="fcard">
+      <span class="ftag">Featured Acquisition</span>
+      <div class="fimg">
+        <span class="fnum">Lot № 1147</span>
+        <image-slot id="hero-piece" placeholder="Drop featured item scan"></image-slot>
+      </div>
+      <h3>Presidential Endorsement, Signed</h3>
+      <div class="fmeta">A. Lincoln · March 1865 · Fine, Archival</div>
+      <div class="frow">
+        <div class="price"><span class="c">Price</span>$8,500</div>
+        <a href="#" class="btn sm">View Details</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section id="categories">
+  <div class="wrap">
+    <div class="shead">
+      <div class="l">
+        <span class="eyebrow">The Collection</span>
+        <h2>Browse by Department</h2>
+      </div>
+      <a href="#" class="link">All Categories
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+</section>
+
+<!-- ERA -->
+<section id="era">
+  <div class="wrap">
+    <div class="shead">
+      <div class="l">
+        <span class="eyebrow">A Walk Through Time</span>
+        <h2>Shop by Era</h2>
+      </div>
+      <a href="#" class="link">Full Timeline
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="era-wrap" id="eraWrap"></div>
+  </div>
+</section>
+
+<!-- ARRIVALS -->
+<section id="arrivals">
+  <div class="wrap">
+    <div class="shead">
+      <div class="l">
+        <span class="eyebrow">Fresh to the Vault</span>
+        <h2>New &amp; Notable Arrivals</h2>
+      </div>
+      <div class="filters" id="filters">
+        <a class="on">All</a>
+        <a>Autographs</a>
+        <a>Stocks &amp; Bonds</a>
+        <a>Currency</a>
+        <a>At Auction</a>
+      </div>
+    </div>
+    <div class="pgrid" id="pgrid"></div>
+    <div class="arr-cta"><a href="#" class="btn">View All 2,400+ Listings
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a></div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote">
+  <div class="wrap">
+    <span class="eyebrow">Curator's Note</span>
+    <blockquote>We don't merely sell documents. We pass on their stories — researched, authenticated, and ready for the next steady hand.</blockquote>
+    <div class="by">— The LaBarre Family</div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section id="trust">
+  <div class="wrap">
+    <div class="shead">
+      <div class="l">
+        <span class="eyebrow">Why Collectors Trust Us</span>
+        <h2>A Standard Set in 1965</h2>
+      </div>
+    </div>
+    <div class="trust-grid">
+      <div class="ti"><div class="rn">01</div><h4>Guaranteed Authentic</h4><p>Every signature and certificate is examined and backed by our lifetime authenticity guarantee.</p></div>
+      <div class="ti"><div class="rn">02</div><h4>Decades of Expertise</h4><p>Among the country's longest-standing dealers in original financial and historical Americana.</p></div>
+      <div class="ti"><div class="rn">03</div><h4>Simple, Safe Returns</h4><p>A straightforward checkout and a fair return policy — collecting should never feel risky.</p></div>
+      <div class="ti"><div class="rn">04</div><h4>We Buy &amp; Appraise</h4><p>Have a collection to sell? We offer free, confidential appraisals and fair, fast offers.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="news">
+  <div class="wrap">
+    <span class="eyebrow center" style="margin-bottom:20px;">Join the List</span>
+    <h2>First Look at New Arrivals</h2>
+    <p>Early access to fresh acquisitions, upcoming auctions, and the occasional story from the archive.</p>
+    <form onsubmit="return false;">
+      <input type="email" placeholder="Your email address" aria-label="Email">
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site">
+  <div class="wrap">
+    <div class="ftop">
+      <div class="fbrand">
+        <img src="assets/labarre-logo.png" alt="LaBarre Galleries">
+        <p>Original autographs, stock &amp; bond certificates, currency, and historical Americana for collectors of every kind.</p>
+      </div>
+      <div class="fcol"><h5>Shop</h5><a href="#categories">Autographs</a><a href="#categories">Stocks &amp; Bonds</a><a href="#categories">Currency &amp; Coins</a><a href="#categories">Americana</a><a href="#arrivals">Live Auctions</a></div>
+      <div class="fcol"><h5>Collectors</h5><a href="#era">Shop by Era</a><a href="#arrivals">New Arrivals</a><a href="#trust">Authenticity</a><a href="#">Sell to Us</a><a href="#">Free Appraisals</a></div>
+      <div class="fcol"><h5>Gallery</h5><a href="#">Our Story</a><a href="#">Contact</a><a href="#">Shipping</a><a href="#">Returns</a><a href="#">Journal</a></div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 George H. LaBarre Galleries, Inc. — All rights reserved.</span>
+      <span>VISA · MC · AMEX · PAYPAL</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const cats=[
+    {n:"01",h:"Autographs &amp; Letters",c:"940 items"},
+    {n:"02",h:"Stocks &amp; Bonds",c:"1,180 items"},
+    {n:"03",h:"Currency &amp; Coins",c:"610 items"},
+    {n:"04",h:"Historical Americana",c:"430 items"},
+    {n:"05",h:"Western &amp; Mining",c:"290 items"},
+    {n:"06",h:"Railroads &amp; Industry",c:"360 items"},
+  ];
+  const cg=document.getElementById('catGrid');
+  cats.forEach((c,i)=>{
+    const a=document.createElement('a');a.href="#";a.className="cat";
+    a.innerHTML=`<div class="ci"><span class="cnum">№ ${c.n}</span><image-slot id="cat-${i}" placeholder="Drop ${c.h.replace(/&amp;/g,'&')} image"></image-slot></div>
+      <div class="cb"><div><h3>${c.h}</h3></div><div style="display:flex;align-items:center;gap:14px;"><span class="cc">${c.c}</span><span class="arr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></div>`;
+    cg.appendChild(a);
+  });
+
+  const eras=[
+    {yr:"1700s",nm:"Colonial",sub:"Scrip · Charters"},
+    {yr:"1800s",nm:"Young Republic",sub:"Canals · Banks"},
+    {yr:"1860s",nm:"Civil War",sub:"Bonds · Letters"},
+    {yr:"1880s",nm:"Gilded Age",sub:"Rails · Mining"},
+    {yr:"1900s",nm:"Industrial",sub:"Auto · Oil"},
+    {yr:"1920s",nm:"Twenties",sub:"Markets · Film"},
+  ];
+  const ew=document.getElementById('eraWrap');
+  eras.forEach(e=>{
+    const a=document.createElement('a');a.href="#arrivals";a.className="era";
+    a.innerHTML=`<div class="yr">${e.yr}</div><div class="nm">${e.nm}</div><div class="sub">${e.sub}</div>`;
+    ew.appendChild(a);
+  });
+
+  const prods=[
+    {tag:"New",auc:false,e:"1863 · Civil War",h:"Presidential Endorsement",price:"$8,500",v:"Buy Now ›"},
+    {tag:"At Auction",auc:true,e:"1886 · Gilded Age",h:"Standard Mining Bond",price:"$320",v:"12 bids ›"},
+    {tag:"New",auc:false,e:"1901 · Industrial",h:"Automobile Stock",price:"$1,250",v:"Buy Now ›"},
+    {tag:"Rare",auc:false,e:"1922 · Twenties",h:"Aviation Autograph",price:"$4,750",v:"Buy Now ›"},
+  ];
+  const pgr=document.getElementById('pgrid');
+  prods.forEach((p,i)=>{
+    const a=document.createElement('a');a.href="#";a.className="prod";
+    a.innerHTML=`<div class="pi"><span class="tag ${p.auc?'auc':''}">${p.tag}</span><image-slot id="prod-${i}" placeholder="Drop item photo"></image-slot></div>
+      <div class="pb"><span class="e">${p.e}</span><h3>${p.h}</h3>
+      <div class="prow"><span class="price">${p.price}</span><span class="v">${p.v}</span></div></div>`;
+    pgr.appendChild(a);
+  });
+
+  document.getElementById('filters').addEventListener('click',e=>{
+    if(e.target.tagName!=='A')return;
+    document.querySelectorAll('#filters a').forEach(x=>x.classList.remove('on'));
+    e.target.classList.add('on');
+  });
+</script>
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#ffffff"/>
+    <rect x="20" y="20" width="60" height="60" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+    <text x="50" y="60" font-family="Archivo, Arial, sans-serif" font-size="34" font-weight="800" fill="#1a1a1a" text-anchor="middle">L</text>
+  </svg>
+</template>
+
+</body>
+</html>

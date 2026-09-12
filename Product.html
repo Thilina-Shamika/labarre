@@ -9,6 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 <script src="assets/chrome.js"></script>
+<script src="assets/inventory.js"></script>
+<script src="assets/search.js"></script>
 </head>
 <body data-page="product">
 <script>document.write(LB.header('product'))</script>
@@ -28,8 +30,11 @@
     <div class="pd-gallery">
       <div class="pd-main">
         <div class="pd-seal"><span>Provenance<br>Verified</span></div>
-        <div class="stage"><img id="stageImg" src="assets/col-broadway-rr.jpg" alt="Broadway & Seventh Avenue Railroad Bond"></div>
+        <div class="stage" id="stage"><img id="stageImg" src="assets/col-broadway-rr.jpg" alt="Broadway & Seventh Avenue Railroad Bond">
+          <span class="zhint"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M11 8v6M8 11h6"/></svg>Hover to magnify</span>
+        </div>
       </div>
+      <p class="itemnote"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6v.4"/></svg>Item ordered may not be the exact piece shown.</p>
       <div class="pd-thumbs" id="thumbs">
         <button class="on" data-src="assets/col-broadway-rr.jpg"><img src="assets/col-broadway-rr.jpg" alt="Full certificate"></button>
         <button data-src="assets/col-baltimore-ohio.jpg"><img src="assets/col-baltimore-ohio.jpg" alt="Signature detail"></button>
@@ -40,19 +45,20 @@
 
     <!-- INFO -->
     <div class="pd-info">
-      <span class="e">Bond · New York, 1884 · Lot AB1</span>
+      <span class="e" id="pdEyebrow">Bond · New York, 1884 · Item AB1P</span>
       <h1>Broadway &amp; Seventh Avenue Railroad Company</h1>
       <div class="pd-price">
         <span class="now">$375</span>
         <span class="was">$450</span>
         <span class="save">Save $75</span>
       </div>
-      <div class="pd-stock"><span class="dot"></span>In stock · 1 available — this is the piece you receive</div>
+      <div class="pd-opts" id="pdOpts"></div>
 
       <div class="pd-meta">
         <div class="r"><span class="k">Type</span><span class="v">$1,000 Mortgage Bond</span></div>
         <div class="r"><span class="k">Issued</span><span class="v">New York, 1884</span></div>
         <div class="r"><span class="k">Vignette</span><span class="v">Steel-engraved eagle</span></div>
+        <div class="r"><span class="k">Size</span><span class="v">11½" × 8"</span></div>
         <div class="r"><span class="k">Condition</span><span class="v">Fine · uncancelled</span></div>
         <div class="r"><span class="k">Coupons</span><span class="v">Partial sheet attached</span></div>
       </div>
@@ -73,9 +79,6 @@
       </div>
 
       <div class="pd-assure">
-        <div class="a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v6c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg><span><b>Guaranteed authentic</b> — unconditionally, without time limit, to the original purchaser.</span></div>
-        <div class="a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 10h18M5 6h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/></svg><span><b>Free U.S. shipping</b> on orders over $500 · fully insured in transit.</span></div>
-        <div class="a"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="M12 7v5l3 2"/></svg><span><b>Ten-day returns</b> — collect with confidence.</span></div>
       </div>
     </div>
   </div>
@@ -84,13 +87,13 @@
   <div class="pd-section">
     <div class="shead" style="text-align:left;max-width:none;margin-left:0;">
       <span class="label" style="display:block;margin-bottom:14px;">The Piece</span>
-      <h2 style="font-family:var(--disp);font-size:34px;font-weight:400;">Description &amp; provenance</h2>
+      <h2 style="font-family:var(--disp);font-size:34px;font-weight:400;">Description &amp; Provenance</h2>
     </div>
     <div class="pd-desc">
       <div class="article">
         <p>Issued in 1884 by the Broadway &amp; Seventh Avenue Railroad Company — one of Manhattan&rsquo;s great horse-car lines before the age of electric traction — this $1,000 mortgage bond carries a crisp, steel-engraved eagle vignette and the ornate border work that defines the finest Gilded-Age scripophily.</p>
         <p>The certificate is uncancelled, with a partial sheet of coupons still attached, and survives in Fine condition with strong paper and clean, legible printing throughout. Pieces from this line rarely reach the market with coupons intact.</p>
-        <h2>Why it matters</h2>
+        <h2>Why It Matters</h2>
         <p>The Broadway &amp; Seventh Avenue line was among the most heavily trafficked street railways in the country, and its securities passed through the hands of the era&rsquo;s most prominent financiers. A handsome, displayable document of New York&rsquo;s transit history.</p>
       </div>
       <div class="pd-specs">
@@ -111,7 +114,7 @@
     <div class="shead">
       <span class="label">You May Also Like</span>
       <div class="orn"><span class="ln"></span><span class="dia"></span><span class="ln"></span></div>
-      <h2 style="font-family:var(--disp);font-size:38px;font-weight:400;">Related pieces</h2>
+      <h2 style="font-family:var(--disp);font-size:38px;font-weight:400;">Related Pieces</h2>
     </div>
     <div class="pgrid" id="related"></div>
   </div>
@@ -134,18 +137,183 @@
     b.classList.add('on');
     stageImg.src = b.dataset.src;
   });
+  // hover magnifier
+  (function(){
+    const stage = document.getElementById('stage');
+    const ZOOM = 2.6;
+    function over(e){
+      const r = stageImg.getBoundingClientRect();   // live: thumbnails differ in aspect
+      return e.clientX>=r.left && e.clientX<=r.right && e.clientY>=r.top && e.clientY<=r.bottom ? r : null;
+    }
+    function at(e){
+      const r = over(e);
+      if(!r){ off(); return; }
+      const x = Math.min(Math.max((e.clientX - r.left) / r.width, 0), 1);
+      const y = Math.min(Math.max((e.clientY - r.top) / r.height, 0), 1);
+      stageImg.style.transformOrigin = (x*100).toFixed(2)+'% '+(y*100).toFixed(2)+'%';
+      stage.classList.add('zooming');
+    }
+    function off(){ stage.classList.remove('zooming'); stageImg.style.transformOrigin='center'; }
+    stage.addEventListener('mousemove', at);
+    stage.addEventListener('mouseleave', off);
+    stage.style.setProperty('--zoom', ZOOM);
+  })();
+  // ===== PRODUCT ATTRIBUTES =====
+  // Each combination is a distinct certificate we hold: colour of the engraving
+  // and the date it was countersigned. Sold combinations stay visible, struck through.
+  const ATTRS = [
+    {key:"colour", label:"Certificate Colour", values:["Green","Brown","Orange"]},
+    {key:"signed", label:"Date Signed",        values:["Dec 23, 1884","Mar 4, 1886"]}
+  ];
+  const STOCK = [
+    {colour:"Green",  signed:"Dec 23, 1884", sku:"740gr", price:375, was:420, stock:0, cond:"Fine · uncancelled",      coupons:"Partial sheet attached", size:'11½" × 8"',   img:"assets/col-broadway-rr.jpg"},
+    {colour:"Green",  signed:"Mar 4, 1886",  sku:"742gr", price:410,           stock:0, cond:"Fine · uncancelled",      coupons:"Partial sheet attached", size:'11½" × 8"',   img:"assets/col-broadway-rr.jpg"},
+    {colour:"Brown",  signed:"Dec 23, 1884", sku:"740br", price:340,           stock:2, cond:"Very Fine · uncancelled", coupons:"Full sheet attached",     size:'11½" × 8"',   img:"assets/col-baltimore-ohio.jpg"},
+    {colour:"Brown",  signed:"Mar 4, 1886",  sku:"742br", price:290,           stock:1, cond:"Very Fine · cancelled",   coupons:"Coupons detached",        size:'11½" × 8"',   img:"assets/col-southern-electric.jpg"},
+    {colour:"Orange", signed:"Dec 23, 1884", sku:"740or", price:610, was:680,  stock:1, cond:"Choice · uncancelled",    coupons:"Full sheet attached",     size:'14" × 10¼"', img:"assets/col-hawaiian-bell.jpg"},
+    {colour:"Orange", signed:"Mar 4, 1886",  sku:"742or", price:0,             stock:0, cond:"Choice · uncancelled",    coupons:"Full sheet attached",     size:'14" × 10¼"', img:"assets/col-hawaiian-bell.jpg"}
+  ];
+  const money = n => '$'+n.toLocaleString();
+  let pick = {colour:null, signed:null};   // nothing chosen — the buyer must pick
+  const findV = s => (s.colour && s.signed) ? STOCK.find(v=>v.colour===s.colour && v.signed===s.signed) : null;
+  const chosen = () => ATTRS.every(a=>!!pick[a.key]);
+  let vSel = null;
+
+  // is a value reachable at all (any in-stock combination using it)?
+  function reachable(key, value){ return STOCK.some(v=>v[key]===value && v.stock>0); }
+  // is it available alongside the other current selections?
+  function availableWith(key, value){
+    const probe = Object.assign({}, pick); probe[key] = value;
+    // any attribute still unchosen is a wildcard
+    return STOCK.some(function(v){
+      return v.stock>0 && ATTRS.every(a=>!probe[a.key] || v[a.key]===probe[a.key]);
+    });
+  }
+
+  function optsHTML(){
+    const stock =
+      '<div class="optsum">'+
+        (vSel
+          ? '<span class="sku">SKU '+vSel.sku+'</span>'+
+            (vSel.stock>0
+              ? '<span class="stk'+(vSel.stock<2?' low':'')+'"><i></i>'+(vSel.stock===1?'Only one available':vSel.stock+' available')+'</span>'
+              : '<span class="stk sold"><i></i>Sorry, this piece has been sold</span>')
+          : '<span class="stk choose"><i></i>'+
+              'Choose '+ATTRS.filter(a=>!pick[a.key]).map(a=>a.label.toLowerCase()).join(' and ')+
+              ' below'+
+            '</span>')+
+      '</div>';
+
+    const groups = ATTRS.map(function(a){
+      return '<div class="optgrp">'+
+        '<div class="opthead"><span class="k">'+a.label+'</span><span class="sel'+(pick[a.key]?'':' none')+'">'+(pick[a.key]||'Select')+'</span></div>'+
+        '<div class="optrow">'+a.values.map(function(val){
+          const here = availableWith(a.key, val), anywhere = reachable(a.key, val);
+          const cls = 'swatch'+(pick[a.key]===val?' on':'')+(anywhere?(here?'':' pale'):' out');
+          const v = findV(Object.assign({}, pick, {[a.key]:val}));
+          const tip = anywhere ? (here?'':'We do not hold this combination') : 'Sold — no longer available';
+          const dis = !anywhere || !here;
+          return '<button class="'+cls+'" data-k="'+a.key+'" data-v="'+val+'" title="'+tip+'"'+(dis?' disabled':'')+'>'+
+            val + (v && v.stock>0 && (!vSel || v.price!==vSel.price) ? '<span class="sp">'+money(v.price)+'</span>' : '') +
+          '</button>';
+        }).join('')+'</div></div>';
+    }).join('');
+
+    const note = (function(){
+      const notes = [];
+      ATTRS.forEach(function(a){
+        const other = ATTRS.find(x=>x.key!==a.key);
+        a.values.forEach(function(val){
+          if(reachable(a.key,val) && !availableWith(a.key,val))
+            notes.push(val+' is held only with a different '+other.label.toLowerCase());
+        });
+      });
+      const soldVals = [];
+      ATTRS.forEach(a=>a.values.forEach(val=>{ if(!reachable(a.key,val)) soldVals.push(val); }));
+      if(soldVals.length) notes.unshift(soldVals.join(' and ')+(soldVals.length>1?' have':' has')+' sold');
+      return notes.length ? '<p class="optnote">'+notes.join(' · ')+'. <a href="Contact.html">Ask us to watch for one</a></p>' : '';
+    })();
+
+    return stock + groups + note;
+  }
+
+  function syncMeta(){
+    const ready = !!vSel, has = ready && vSel.stock>0;
+    const from = Math.min.apply(null, STOCK.filter(v=>v.stock>0).map(v=>v.price));
+    const now = document.querySelector('.pd-price .now');
+    if(now) now.textContent = ready ? (has ? money(vSel.price) : '—') : 'From '+money(from);
+    const wasEl = document.querySelector('.pd-price .was');
+    if(wasEl){ wasEl.style.display = (has && vSel.was) ? '' : 'none'; if(vSel && vSel.was) wasEl.textContent = money(vSel.was); }
+    const saveEl = document.querySelector('.pd-price .save');
+    if(saveEl){
+      const show = has && vSel.was;
+      saveEl.style.display = show ? '' : 'none';
+      if(show) saveEl.textContent = 'Save '+money(vSel.was - vSel.price);
+    }
+    document.querySelectorAll('.pd-meta .r').forEach(function(r){
+      const k = r.querySelector('.k').textContent.trim(), v = r.querySelector('.v');
+      if(k==='Condition') v.textContent = ready ? vSel.cond : 'Varies by example';
+      if(k==='Coupons')   v.textContent = ready ? vSel.coupons : 'Varies by example';
+      if(k==='Size')      v.textContent = ready ? vSel.size : 'Varies by example';
+      if(k==='Issued')    v.textContent = pick.signed ? 'New York, '+pick.signed.slice(-4) : 'New York, 1884 or 1886';
+    });
+    document.querySelectorAll('.pd-specs .r').forEach(function(r){
+      const k = r.querySelector('.k').textContent.trim(), v = r.querySelector('.v');
+      if(k==='Condition') v.textContent = ready ? vSel.cond : 'Varies by example';
+      if(k==='Date')      v.textContent = pick.signed || '1884 or 1886';
+      if(k==='Lot No.')   v.textContent = ready ? vSel.sku : '—';
+    });
+    if(ready){
+      stageImg.src = vSel.img;
+      thumbs.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.src===vSel.img); });
+    }
+    const eye = document.getElementById('pdEyebrow');
+    if(eye) eye.textContent = ready
+      ? 'Bond · New York, '+pick.signed.slice(-4)+' · '+pick.colour+' · SKU '+vSel.sku
+      : 'Bond · New York · '+STOCK.filter(v=>v.stock>0).length+' examples held';
+    if(qty > Math.max(1, ready?vSel.stock:1)){ qty = 1; qn.textContent = qty; }
+    const add = document.getElementById('addCart'), buy = document.querySelector('.pd-sub .btn-gold');
+    if(add){
+      add.disabled = !has;
+      add.classList.toggle('is-disabled', !has);
+      add.innerHTML = !ready
+        ? 'Select an Option'
+        : (has ? 'Add to Cart<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' : 'Sold');
+    }
+    if(buy){
+      buy.classList.toggle('is-disabled', !has);
+      buy.textContent = !ready ? 'Buy It Now' : (has ? 'Buy It Now' : 'Join the Want List');
+      buy.setAttribute('href', has ? 'Cart.html' : (ready ? 'Contact.html' : '#pdOpts'));
+    }
+    const qwrap = document.querySelector('.pd-buy .qty');
+    if(qwrap) qwrap.style.opacity = has ? '' : '.45';
+  }
+
+  function drawOpts(){
+    const host = document.getElementById('pdOpts');
+    host.innerHTML = optsHTML();
+    host.querySelectorAll('[data-k]').forEach(function(b){
+      b.addEventListener('click', function(){
+        pick[b.dataset.k] = b.dataset.v;
+        vSel = findV(pick);
+        drawOpts(); syncMeta();
+      });
+    });
+  }
+
   // qty
   let qty = 1;
   const qn = document.getElementById('qn');
-  document.getElementById('qInc').addEventListener('click', ()=>{ qty++; qn.textContent=qty; });
+  document.getElementById('qInc').addEventListener('click', ()=>{ if(qty<vSel.stock){ qty++; qn.textContent=qty; } });
   document.getElementById('qDec').addEventListener('click', ()=>{ if(qty>1){qty--; qn.textContent=qty;} });
   // add to cart toast + badge
   const toast = document.getElementById('toast');
   document.getElementById('addCart').addEventListener('click', ()=>{
+    if(!vSel || !vSel.stock) return;
     if(window.LBcart){
-      window.LBcart.add({img:"assets/col-broadway-rr.jpg", e:"Bond · New York, 1884", h:"Broadway & Seventh Avenue Railroad Company", price:375, qty:qty});
+      window.LBcart.add({img:vSel.img, e:pick.colour+' · signed '+pick.signed, h:"Broadway & Seventh Avenue Railroad Company", price:vSel.price, qty:qty, sku:vSel.sku});
     }
-    document.getElementById('toastMsg').textContent = qty+' item'+(qty>1?'s':'')+' added to your cart';
+    document.getElementById('toastMsg').textContent = qty+' × '+pick.colour+', signed '+pick.signed+' added to your cart';
     toast.classList.add('show');
     clearTimeout(window.__t); window.__t = setTimeout(()=>toast.classList.remove('show'), 2600);
   });
@@ -156,6 +324,7 @@
     {img:"assets/col-southern-electric.jpg", badge:"Available", e:"Bond · 1960", h:"Southern Electric Generating Co.", d:"$1,000 bond, full coupons.", pr:120},
     {img:"assets/col-midwest-realty.jpg", badge:"Available", e:"Stock · Utah, 1975", h:"Midwest Realty & Finance", d:"200 shares, green border.", pr:45},
   ];
+  drawOpts(); syncMeta();
   document.getElementById('related').innerHTML = related.map(it=>`
     <a href="Product.html" class="prod">
       <div class="pimg">
@@ -167,7 +336,7 @@
         <span class="e">${it.e}</span>
         <h3>${it.h}</h3>
         <span class="d">${it.d}</span>
-        <div class="prow"><span class="pr"><span class="s">Buy Now</span>$${it.pr.toLocaleString()}</span><span class="add">Add to cart →</span></div>
+        <div class="prow"><span class="pr"><span class="s">Buy Now</span>$${it.pr.toLocaleString()}</span><span class="add">Add to Cart<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
       </div>
     </a>`).join('');
 </script>

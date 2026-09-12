@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search the Inventory — George H. LaBarre Galleries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/chrome.js"></script>
+<script src="assets/inventory.js"></script>
+<script src="assets/search.js"></script>
+</head>
+<body data-page="search">
+<script>document.write(LB.header('search'))</script>
+<div class="page-head"><div class="wrap">
+  <div class="breadcrumb"><a href="home.html">Home</a><span class="sep">/</span><span>Search</span></div>
+  <h1>Search the Inventory</h1>
+  <p>Every way we know how to look: by title, price, date, size, printer, region, condition, and whether a piece is still available or long since sold.</p>
+</div></div>
+<section><div class="wrap">
+  <div class="srch-layout">
+    <aside class="srch-rail" id="rail"></aside>
+    <div class="srch-main">
+      <div class="srch-bar">
+        <form id="qForm" class="qbox">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="text" id="qIn" placeholder="Company, signer, Friedberg number, lot or item ID…" autocomplete="off">
+          <select id="fieldIn" aria-label="Search in">
+            <option value="all">All fields</option>
+            <option value="title">Title only</option>
+            <option value="desc">Description</option>
+            <option value="ref">Reference / ID</option>
+          </select>
+          <button class="btn btn-navy" type="submit">Search</button>
+        </form>
+        <div class="srch-tools">
+          <span class="cnt" id="cnt"></span>
+          <label class="srt">Sort
+            <select id="sortIn">
+              <option value="rel">Best match</option>
+              <option value="pl">Price: low to high</option>
+              <option value="ph">Price: high to low</option>
+              <option value="yo">Date: oldest first</option>
+              <option value="yn">Date: newest first</option>
+              <option value="sz">Size: smallest first</option>
+              <option value="szd">Size: largest first</option>
+              <option value="rz">Realized price</option>
+            </select>
+          </label>
+          <div class="vtog" id="vtog">
+            <button data-v="grid" aria-label="Grid view"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></button>
+            <button data-v="list" aria-label="List view"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <div class="chiprow" id="chips"></div>
+      <p class="itemnote"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6v.4"/></svg>Item ordered may not be the exact piece shown.</p>
+      <div id="results"></div>
+    </div>
+  </div>
+</div></section>
+<script>
+(function(){
+  const S = window.LBsearch, INV = S.inv();
+  const rail = document.getElementById('rail'), res = document.getElementById('results');
+  const CONDS = ["Choice Uncirculated","Extremely Fine","Very Fine","Fine","Good"];
+  const SIZES = [["sm","Under 8 in"],["md","8 – 14 in"],["lg","14 – 20 in"],["xl","Over 20 in"]];
+  const STATS = [["available","Available now"],["auction","At auction"],["sold","Include sold &amp; archive"],["soldonly","Only sold items"]];
+  const TYPES = Array.from(new Set(INV.map(i=>i.type))).sort();
+  const PRICE_BANDS = [[0,50],[50,150],[150,400],[400,1000],[1000,5000],[5000,null]];
+  const uniq = k => Array.from(new Set(INV.map(i=>i[k]))).filter(v=>v&&v!=='—').sort();
+  const subsFor = cat => Array.from(new Set(INV.filter(i=>cat==='all'||i.cat===cat).flatMap(i=>i.tags))).sort();
+  let f = S.parseQS();
+
+  function count(pred){ return INV.filter(pred).length; }
+  function money(n){ return '$'+n.toLocaleString(); }
+
+  function railHTML(){
+    const subs = subsFor(f.cat);
+    return `
+    <div class="rail-top"><h3>Refine</h3><button class="clr" id="clrAll">Clear all</button></div>
+    <details class="fgrp" open><summary>Category</summary>
+      <select id="catIn" class="fsel">
+        <option value="all">All departments</option>
+        ${Object.keys(S.CATNAME).map(k=>`<option value="${k}"${f.cat===k?' selected':''}>${S.CATNAME[k]} (${count(i=>i.cat===k)})</option>`).join('')}
+      </select>
+    </details>
+    <details class="fgrp"${f.subs.length?' open':''}><summary>Subcategory <span class="c">${subs.length}</span></summary>
+      <div class="fscroll">
+        ${subs.map(s=>`<label class="fck"><input type="checkbox" data-sub="${s.replace(/"/g,'&quot;')}"${f.subs.includes(s)?' checked':''}><span>${S.esc(s)}</span><b>${count(i=>i.tags.includes(s))}</b></label>`).join('')}
+      </div>
+    </details>
+    <details class="fgrp" open><summary>Price</summary>
+      <div class="frow"><input type="number" id="pmin" placeholder="Min $" value="${f.pmin}"><span class="dash">–</span><input type="number" id="pmax" placeholder="Max $" value="${f.pmax}"></div>
+      <div class="bands">${PRICE_BANDS.map(([a,b])=>`<button class="band" data-a="${a}" data-b="${b||''}">${b?money(a)+'–'+money(b):money(a)+'+'}</button>`).join('')}</div>
+    </details>
+    <details class="fgrp"${(f.ymin||f.ymax)?' open':''}><summary>Date of issue</summary>
+      <div class="frow"><input type="number" id="ymin" placeholder="From 1700" value="${f.ymin}"><span class="dash">–</span><input type="number" id="ymax" placeholder="To 2000" value="${f.ymax}"></div>
+      <div class="bands">${[[1700,1799],[1800,1865],[1866,1899],[1900,1945],[1946,2000]].map(([a,b])=>`<button class="band yr" data-a="${a}" data-b="${b}">${a}–${b}</button>`).join('')}</div>
+    </details>
+    <details class="fgrp" open><summary>Availability</summary>
+      ${STATS.map(([k,l])=>`<label class="fck"><input type="checkbox" data-st="${k}"${f.st.includes(k)?' checked':''}><span>${l}</span><b>${k==='soldonly'?count(i=>i.st==='sold'):count(i=>i.st===k)}</b></label>`).join('')}
+    </details>
+    <details class="fgrp"${f.type.length?' open':''}><summary>Product type</summary>
+      ${TYPES.map(t=>`<label class="fck"><input type="checkbox" data-type="${t.replace(/"/g,'&quot;')}"${f.type.includes(t)?' checked':''}><span>${S.esc(t)}</span><b>${count(i=>i.type===t)}</b></label>`).join('')}
+    </details>
+    <details class="fgrp"${f.size.length?' open':''}><summary>Size <span class="c">longest edge</span></summary>
+      ${SIZES.map(([k,l])=>{const b=S.SIZEBUCKET[k];return `<label class="fck"><input type="checkbox" data-size="${k}"${f.size.includes(k)?' checked':''}><span>${l}</span><b>${count(i=>S.longest(i)>=b[0]&&S.longest(i)<b[1])}</b></label>`}).join('')}
+    </details>
+    <details class="fgrp"${f.cond.length?' open':''}><summary>Condition</summary>
+      ${CONDS.map(c=>`<label class="fck"><input type="checkbox" data-cond="${c}"${f.cond.includes(c)?' checked':''}><span>${c}</span><b>${count(i=>i.cond===c)}</b></label>`).join('')}
+    </details>
+    <details class="fgrp"${(f.signed||f.coupons||f.unc)?' open':''}><summary>Features</summary>
+      <label class="fck"><input type="checkbox" id="signed"${f.signed?' checked':''}><span>Signed or autographed</span><b>${count(i=>i.signed)}</b></label>
+      <label class="fck"><input type="checkbox" id="coupons"${f.coupons?' checked':''}><span>Coupons attached</span><b>${count(i=>i.coupons)}</b></label>
+      <label class="fck"><input type="checkbox" id="unc"${f.unc?' checked':''}><span>Uncancelled</span><b>${count(i=>i.unc)}</b></label>
+    </details>
+    <details class="fgrp"${f.printer!=='all'?' open':''}><summary>Printer / engraver</summary>
+      <select id="printerIn" class="fsel"><option value="all">Any printer</option>${uniq('printer').map(p=>`<option value="${p.replace(/"/g,'&quot;')}"${f.printer===p?' selected':''}>${S.esc(p)} (${count(i=>i.printer===p)})</option>`).join('')}</select>
+    </details>
+    <details class="fgrp"${f.region!=='all'?' open':''}><summary>Region</summary>
+      <select id="regionIn" class="fsel"><option value="all">Anywhere</option>${uniq('region').map(p=>`<option value="${p.replace(/"/g,'&quot;')}"${f.region===p?' selected':''}>${S.esc(p)} (${count(i=>i.region===p)})</option>`).join('')}</select>
+    </details>
+    <details class="fgrp"${f.state!=='all'?' open':''}><summary>State / country</summary>
+      <select id="stateIn" class="fsel"><option value="all">Any state</option>${uniq('state').filter(v=>f.region==='all'||INV.some(i=>i.state===v&&i.region===f.region)).map(p=>`<option value="${p.replace(/"/g,'&quot;')}"${f.state===p?' selected':''}>${S.esc(p)} (${count(i=>i.state===p)})</option>`).join('')}</select>
+    </details>
+    <details class="fgrp"${f.city!=='all'?' open':''}><summary>City / area of issue</summary>
+      <select id="cityIn" class="fsel"><option value="all">Any city</option>${uniq('city').filter(v=>(f.state==='all'||INV.some(i=>i.city===v&&i.state===f.state))&&(f.region==='all'||INV.some(i=>i.city===v&&i.region===f.region))).map(p=>`<option value="${p.replace(/"/g,'&quot;')}"${f.city===p?' selected':''}>${S.esc(p)} (${count(i=>i.city===p)})</option>`).join('')}</select>
+    </details>
+    <div class="rail-foot">
+      <button class="btn btn-line" id="saveSearch">Save this search</button>
+      <p class="hint">Can't find it? We keep a want list — <a href="Contact.html">tell us what you're hunting</a> and we'll write when it arrives.</p>
+    </div>`;
+  }
+
+  function chipsHTML(list){
+    const c = [];
+    if(f.q) c.push(['q','“'+S.esc(S.strip(f.q))+'”'+(f.field!=='all'?' in '+f.field:'')]);
+    if(f.cat!=='all') c.push(['cat',S.CATNAME[f.cat]]);
+    f.subs.forEach(s=>c.push(['sub:'+s,S.esc(s)]));
+    if(f.pmin||f.pmax) c.push(['price',(f.pmin?money(+f.pmin):'$0')+' – '+(f.pmax?money(+f.pmax):'any')]);
+    if(f.ymin||f.ymax) c.push(['year',(f.ymin||'1700')+' – '+(f.ymax||'2000')]);
+    f.st.forEach(s=>c.push(['st:'+s,{available:'Available now',auction:'At auction',sold:'Incl. sold',soldonly:'Sold only'}[s]]));
+    f.size.forEach(s=>c.push(['size:'+s,(SIZES.find(x=>x[0]===s)||[,''])[1]]));
+    f.cond.forEach(s=>c.push(['cond:'+s,s]));
+    f.type.forEach(t=>c.push(['type:'+t,S.esc(t)]));
+    if(f.printer!=='all') c.push(['printer',S.esc(f.printer)]);
+    if(f.region!=='all') c.push(['region',S.esc(f.region)]);
+    if(f.state!=='all') c.push(['state',S.esc(f.state)]);
+    if(f.city!=='all') c.push(['city',S.esc(f.city)]);
+    if(f.signed) c.push(['signed','Signed']);
+    if(f.coupons) c.push(['coupons','Coupons attached']);
+    if(f.unc) c.push(['unc','Uncancelled']);
+    if(!c.length) return '';
+    return c.map(([k,l])=>`<button class="chip" data-k="${k}">${l}<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`).join('')+
+      `<button class="chip clear" data-k="__all">Clear all</button>`;
+  }
+
+  function card(it){
+    const sold = it.st==='sold';
+    const badge = sold?['sold','Sold']:(it.st==='auction'?['auc','At Auction']:it.signed?['sgn','Signed']:['','Available']);
+    return `<a class="prod${sold?' is-sold':''}" href="Product.html?id=${it.id}">
+      <div class="pshot"><img src="${it.img}" alt="" loading="lazy"><span class="badge ${badge[0]}">${badge[1]}</span></div>
+      <div class="pbody">
+        <span class="e">${S.CATNAME[it.cat]} · ${it.yr}</span>
+        <h3>${it.h}</h3>
+        <span class="d">${it.d}</span>
+        <div class="specrow"><span>${it.type}</span><span>${it.w}″ × ${it.ht}″</span><span>${it.cond}</span>${it.ref?`<span>${it.ref}</span>`:''}</div>
+        <div class="prow">
+          <span class="pr"><span class="s">${sold?'Realized':'Buy Now'}</span>${money(sold?it.realized:it.pr)}</span>
+          ${sold?`<span class="solddt">${it.sold}</span>`:`<span class="add">Add to Cart<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>`}
+        </div>
+      </div>
+    </a>`;
+  }
+  function row(it){
+    const sold = it.st==='sold';
+    return `<a class="lrow${sold?' is-sold':''}" href="Product.html?id=${it.id}">
+      <div class="li"><img src="${it.img}" alt="" loading="lazy"></div>
+      <div class="lt"><h4>${it.h}</h4><span class="d">${it.d}</span></div>
+      <span class="lm">${it.yr}</span>
+      <span class="lm">${it.w}″ × ${it.ht}″</span>
+      <span class="lm">${it.cond}</span>
+      <span class="lm id">${it.id}</span>
+      <span class="lp">${money(sold?it.realized:it.pr)}<em>${sold?'realized '+it.sold:''}</em></span>
+    </a>`;
+  }
+
+  function broaden(){
+    const tries = [];
+    if(f.q && f.field!=='all') tries.push(['Search all fields instead', ()=>{f.field='all';}]);
+    if(f.subs.length) tries.push(['Drop the subcategory filter', ()=>{f.subs=[];}]);
+    if(f.pmin||f.pmax) tries.push(['Remove the price range', ()=>{f.pmin='';f.pmax='';}]);
+    if(!f.st.includes('sold')&&!f.st.includes('soldonly')) tries.push(['Include sold &amp; archive pieces', ()=>{f.st=f.st.concat('sold');}]);
+    if(f.cat!=='all') tries.push(['Search every department', ()=>{f.cat='all';}]);
+    if(f.st.length) tries.push(['Search available <em>and</em> sold', ()=>{f.st=['available','auction','sold'];}]);
+    if(f.q) tries.push(['Clear the keyword “'+S.esc(S.strip(f.q))+'”', ()=>{f.q='';f.field='all';}]);
+    tries.push([f.q?'Keep the keyword, drop every other filter':'Drop every filter', ()=>{f.cat='all';f.subs=[];f.pmin='';f.pmax='';f.ymin='';f.ymax='';f.st=[];f.cond=[];f.size=[];f.printer='all';f.region='all';f.state='all';f.city='all';f.type=[];f.signed=false;f.coupons=false;f.unc=false;}]);
+    // keep only the suggestions that genuinely return something
+    return tries.filter(function(t){
+      const probe = JSON.parse(JSON.stringify(f));
+      const real = f; f = probe; t[1](); const hits = INV.filter(i=>S.match(i,probe)).length; f = real;
+      return hits > 0;
+    });
+  }
+
+  function render(){
+    rail.innerHTML = railHTML();
+    document.getElementById('qIn').value = S.strip(f.q);
+    document.getElementById('fieldIn').value = f.field;
+    document.getElementById('sortIn').value = f.sort;
+    document.querySelectorAll('#vtog button').forEach(b=>b.classList.toggle('on', b.dataset.v===f.view));
+    const list = S.sort(INV.filter(i=>S.match(i,f)), f);
+    document.getElementById('cnt').innerHTML = list.length ? `<b>${list.length}</b> ${list.length===1?'piece':'pieces'}${f.q?' for “'+S.esc(S.strip(f.q))+'”':''}` : 'No matches';
+    document.getElementById('chips').innerHTML = chipsHTML(list);
+    if(!list.length){
+      const t = broaden();
+      res.innerHTML = `<div class="nores">
+        <h3>Nothing matched all of those filters</h3>
+        <p>Search is unforgiving by design — loosen one thing and you'll usually find it.</p>
+        ${t.length?`<div class="broad">${t.map((x,i)=>`<button data-b="${i}">${x[0]}</button>`).join('')}</div>`:''}
+        <p class="hint">Still nothing? <a href="Contact.html">Send us a want list</a> — most of our best placements start that way.</p>
+      </div>`;
+      res.querySelectorAll('[data-b]').forEach(b=>b.addEventListener('click',()=>{ t[+b.dataset.b][1](); push(); }));
+      return;
+    }
+    res.innerHTML = f.view==='list'
+      ? `<div class="lhead"><span>Piece</span><span>Date</span><span>Size</span><span>Condition</span><span>Item</span><span class="r">Price</span></div><div class="llist">${list.map(row).join('')}</div>`
+      : `<div class="pgrid">${list.map(card).join('')}</div>`;
+  }
+
+  function push(){
+    const qs = S.toQS(f);
+    history.replaceState(null,'', location.pathname + (qs?'?'+qs:''));
+    render();
+  }
+  function toggle(arr,v){ const i=arr.indexOf(v); if(i<0) arr.push(v); else arr.splice(i,1); return arr; }
+
+  document.addEventListener('click', function(e){
+    const chip = e.target.closest('.chip');
+    if(chip){
+      const k = chip.dataset.k;
+      if(k==='__all') f = S.parseQS.call(null), f = {q:'',field:'all',cat:'all',subs:[],pmin:'',pmax:'',ymin:'',ymax:'',st:[],cond:[],size:[],printer:'all',region:'all',type:[],state:'all',city:'all',signed:false,coupons:false,unc:false,sort:f.sort,view:f.view};
+      else if(k==='q'){ f.q=''; f.field='all'; }
+      else if(k==='cat') f.cat='all';
+      else if(k==='price'){ f.pmin=''; f.pmax=''; }
+      else if(k==='year'){ f.ymin=''; f.ymax=''; }
+      else if(k==='printer') f.printer='all';
+      else if(k==='region'){ f.region='all'; }
+      else if(k==='state'){ f.state='all'; f.city='all'; }
+      else if(k==='city') f.city='all';
+      else if(k.startsWith('type:')) f.type = f.type.filter(x=>x!==k.slice(5));
+      else if(k==='signed') f.signed=false;
+      else if(k==='coupons') f.coupons=false;
+      else if(k==='unc') f.unc=false;
+      else if(k.startsWith('sub:')) f.subs = f.subs.filter(x=>x!==k.slice(4));
+      else if(k.startsWith('st:')) f.st = f.st.filter(x=>x!==k.slice(3));
+      else if(k.startsWith('size:')) f.size = f.size.filter(x=>x!==k.slice(5));
+      else if(k.startsWith('cond:')) f.cond = f.cond.filter(x=>x!==k.slice(5));
+      push(); return;
+    }
+    const band = e.target.closest('.band');
+    if(band){
+      if(band.classList.contains('yr')){ f.ymin=band.dataset.a; f.ymax=band.dataset.b; }
+      else { f.pmin=band.dataset.a; f.pmax=band.dataset.b; }
+      push(); return;
+    }
+    const v = e.target.closest('#vtog button');
+    if(v){ f.view = v.dataset.v; push(); return; }
+    if(e.target.id==='clrAll'){ document.querySelector('.chip.clear')?.click() || (f={q:'',field:'all',cat:'all',subs:[],pmin:'',pmax:'',ymin:'',ymax:'',st:[],cond:[],size:[],printer:'all',region:'all',type:[],state:'all',city:'all',signed:false,coupons:false,unc:false,sort:'rel',view:f.view}, push()); return; }
+    if(e.target.id==='saveSearch'){
+      const saved = JSON.parse(localStorage.getItem('lb_saved_searches')||'[]');
+      saved.unshift({qs:S.toQS(f), when:Date.now()});
+      localStorage.setItem('lb_saved_searches', JSON.stringify(saved.slice(0,12)));
+      e.target.textContent = 'Saved to your account';
+      setTimeout(()=>{ e.target.textContent='Save this search'; }, 2200);
+      return;
+    }
+  });
+  document.addEventListener('change', function(e){
+    const t = e.target;
+    if(t.dataset.sub!==undefined){ toggle(f.subs, t.dataset.sub); push(); }
+    else if(t.dataset.st!==undefined){ toggle(f.st, t.dataset.st); push(); }
+    else if(t.dataset.size!==undefined){ toggle(f.size, t.dataset.size); push(); }
+    else if(t.dataset.cond!==undefined){ toggle(f.cond, t.dataset.cond); push(); }
+    else if(t.id==='catIn'){ f.cat=t.value; f.subs=[]; push(); }
+    else if(t.id==='printerIn'){ f.printer=t.value; push(); }
+    else if(t.id==='regionIn'){ f.region=t.value; f.state='all'; f.city='all'; push(); }
+    else if(t.id==='stateIn'){ f.state=t.value; f.city='all'; push(); }
+    else if(t.id==='cityIn'){ f.city=t.value; push(); }
+    else if(t.dataset.type!==undefined){ toggle(f.type, t.dataset.type); push(); }
+    else if(t.id==='sortIn'){ f.sort=t.value; push(); }
+    else if(t.id==='fieldIn'){ f.field=t.value; push(); }
+    else if(t.id==='signed'){ f.signed=t.checked; push(); }
+    else if(t.id==='coupons'){ f.coupons=t.checked; push(); }
+    else if(t.id==='unc'){ f.unc=t.checked; push(); }
+    else if(['pmin','pmax','ymin','ymax'].includes(t.id)){ f[t.id]=t.value; push(); }
+  });
+  document.getElementById('qForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    f.q = document.getElementById('qIn').value.trim();
+    f.field = document.getElementById('fieldIn').value;
+    push();
+  });
+  render();
+})();
+</script>
+<script>document.write(LB.footer())</script>
+</body>
+</html>

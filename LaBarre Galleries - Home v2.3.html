@@ -39,7 +39,7 @@
             <div class="cell"><div class="k">Lot</div><div class="v">AB1</div></div>
           </div>
           <div class="cta-row">
-            <a href="Auctions.html" class="btn btn-navy">View This Sale
+            <a href="#arrivals" class="btn btn-navy">View This Sale
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
             <a href="#categories" class="btn btn-line">Browse the Collection</a>
@@ -71,7 +71,7 @@
             <div class="cell"><div class="k">Lot</div><div class="v">№ 152</div></div>
           </div>
           <div class="cta-row">
-            <a href="Auctions.html" class="btn btn-navy">View This Sale
+            <a href="#arrivals" class="btn btn-navy">View This Sale
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
             <a href="#categories" class="btn btn-line">Browse the Collection</a>
@@ -152,7 +152,7 @@
     </div>
     <div class="pgrid" id="pgrid"></div>
     <div class="arr-cta">
-      <a href="New Items.html" class="btn btn-line">View All 2,400+ Listings
+      <a href="#" class="btn btn-line">View All 2,400+ Listings
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>
@@ -173,7 +173,7 @@
     </div>
     <div class="auc-grid" id="aucGrid"></div>
     <div class="arr-cta">
-      <a href="Auctions.html" class="btn btn-line">View All Auction Lots
+      <a href="#" class="btn btn-line">View All Auction Lots
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>
@@ -188,7 +188,7 @@
         <h2>Recently Placed in Collections</h2>
       </div>
       <div class="cta-row">
-        <a href="Sell to Us.html" class="btn btn-line">Offer Us an Item</a>
+        <a href="#" class="btn btn-line">Offer Us an Item</a>
       </div>
     </div>
     <p class="sold-intro">A look at pieces recently placed into private collections — every one now sold out. Spot something you own among them? We&rsquo;re always buying; send it our way for a fair, confidential offer.</p>
@@ -217,7 +217,7 @@
 </section>
 
 <!-- NEWSLETTER -->
-<section class="news-sec" id="newsletter">
+<section class="news-sec">
   <div class="wrap">
     <div class="nl-in">
     <div class="nl-t">
@@ -296,7 +296,7 @@
   const er=document.getElementById('eraRow');
   eras.forEach(e=>{
     const a=document.createElement('a');
-    a.href="Shop by Decade.html"; a.className="era";
+    a.href="#arrivals"; a.className="era";
     a.innerHTML=`<span class="yr">${e.yr}</span><span class="node"></span><span class="nm">${e.nm}</span><span class="sub">${e.sub}</span>`;
     er.appendChild(a);
   });
@@ -404,7 +404,7 @@
   const sg=document.getElementById('soldGrid');
   soldItems.forEach(s=>{
     const a=document.createElement('a');
-    a.href="Product.html"; a.className="soldcard";
+    a.href="#"; a.className="soldcard";
     a.innerHTML=`
       <div class="sold-img">
         <div class="sold-ph"><img src="${assetUrl(s.img)}" alt="${s.h.replace(/&amp;/g,'&')}" loading="lazy"></div>
