@@ -73,18 +73,19 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
       </div>
+      <form class="pd-notify" id="pdNotify" hidden onsubmit="event.preventDefault();if(this.reportValidity()){document.getElementById('pdNotifyOk').hidden=false;}">
+        <p>We&rsquo;ll email you once this selection is back in stock.</p>
+        <div class="row"><input type="email" required placeholder="you@example.com" aria-label="Email"><button class="btn btn-navy" type="submit">Notify Me</button></div>
+        <p class="ok" id="pdNotifyOk" hidden>Thanks. We&rsquo;ll let you know.</p>
+      </form>
       <div class="pd-sub">
-        <button type="button" class="btn btn-gold" id="shareBtn">Share with a Friend
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
-        </button>
-        <a href="Contact.html" class="btn btn-line">Ask a Question</a>
+        <button type="button" class="btn btn-gold" id="pdShare"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"></path></svg>Share with a Friend</button>
+        <a href="Ask a Question.html" class="btn btn-line" id="pdAsk">Ask a Question</a>
       </div>
+      <a href="Sell to Us.html" class="pd-sell"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"></path><circle cx="7.5" cy="7.5" r="1.5"></circle></svg>I have one to sell<span aria-hidden="true">→</span></a>
+      <a href="Search.html" class="pd-sell pd-look"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Looking for something?<span aria-hidden="true">→</span></a>
 
       <div class="pd-assure">
-        <a href="Sell to Us.html" class="pd-sell">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 2.8 12V4a1 1 0 0 1 1-1h8a2 2 0 0 1 1.4.6l7.4 7.4a2 2 0 0 1 0 2.8z"/><circle cx="7.6" cy="7.6" r="1.2"/></svg>
-          <span>I have one to sell</span>
-        </a>
       </div>
     </div>
   </div>
@@ -168,20 +169,16 @@
   // Each combination is a distinct certificate we hold: colour of the engraving
   // and the date it was countersigned. Sold combinations stay visible, struck through.
   const ATTRS = [
-    {key:"colour", label:"Certificate Colour", values:["Green","Brown","Orange"]},
-    {key:"signed", label:"Date Signed",        values:["Dec 23, 1884","Mar 4, 1886"]}
+    {key:"colour", label:"Certificate Colour", values:["Green","Brown","Orange"]}
   ];
   const STOCK = [
-    {colour:"Green",  signed:"Dec 23, 1884", sku:"740gr", price:375, was:420, stock:0, cond:"Fine · uncancelled",      coupons:"Partial sheet attached", size:'11½" × 8"',   img:"assets/col-broadway-rr.jpg"},
-    {colour:"Green",  signed:"Mar 4, 1886",  sku:"742gr", price:410,           stock:0, cond:"Fine · uncancelled",      coupons:"Partial sheet attached", size:'11½" × 8"',   img:"assets/col-broadway-rr.jpg"},
-    {colour:"Brown",  signed:"Dec 23, 1884", sku:"740br", price:340,           stock:2, cond:"Very Fine · uncancelled", coupons:"Full sheet attached",     size:'11½" × 8"',   img:"assets/col-baltimore-ohio.jpg"},
-    {colour:"Brown",  signed:"Mar 4, 1886",  sku:"742br", price:290,           stock:1, cond:"Very Fine · cancelled",   coupons:"Coupons detached",        size:'11½" × 8"',   img:"assets/col-southern-electric.jpg"},
-    {colour:"Orange", signed:"Dec 23, 1884", sku:"740or", price:610, was:680,  stock:1, cond:"Choice · uncancelled",    coupons:"Full sheet attached",     size:'14" × 10¼"', img:"assets/col-hawaiian-bell.jpg"},
-    {colour:"Orange", signed:"Mar 4, 1886",  sku:"742or", price:0,             stock:0, cond:"Choice · uncancelled",    coupons:"Full sheet attached",     size:'14" × 10¼"', img:"assets/col-hawaiian-bell.jpg"}
+    {colour:"Green",  sku:"740gr", price:375, was:420, stock:0, cond:"Fine · uncancelled",      coupons:"Partial sheet attached", size:'11½" × 8"',   img:"assets/col-broadway-rr.jpg"},
+    {colour:"Brown",  sku:"740br", price:375, was:420, stock:3, cond:"Very Fine · uncancelled", coupons:"Full sheet attached",    size:'11½" × 8"',   img:"assets/col-baltimore-ohio.jpg"},
+    {colour:"Orange", sku:"740or", price:375, was:420, stock:1, cond:"Choice · uncancelled",    coupons:"Full sheet attached",    size:'14" × 10¼"', img:"assets/col-hawaiian-bell.jpg"}
   ];
   const money = n => '$'+n.toLocaleString();
-  let pick = {colour:null, signed:null};   // nothing chosen — the buyer must pick
-  const findV = s => (s.colour && s.signed) ? STOCK.find(v=>v.colour===s.colour && v.signed===s.signed) : null;
+  let pick = {colour:null};   // nothing chosen — the buyer must pick
+  const findV = s => s.colour ? STOCK.find(v=>v.colour===s.colour) : null;
   const chosen = () => ATTRS.every(a=>!!pick[a.key]);
   let vSel = null;
 
@@ -218,7 +215,7 @@
           const cls = 'swatch'+(pick[a.key]===val?' on':'')+(anywhere?(here?'':' pale'):' out');
           const v = findV(Object.assign({}, pick, {[a.key]:val}));
           const tip = anywhere ? (here?'':'We do not hold this combination') : 'Sold — no longer available';
-          const dis = !anywhere || !here;
+          const dis = anywhere && !here;
           return '<button class="'+cls+'" data-k="'+a.key+'" data-v="'+val+'" title="'+tip+'"'+(dis?' disabled':'')+'>'+
             val + (v && v.stock>0 && (!vSel || v.price!==vSel.price) ? '<span class="sp">'+money(v.price)+'</span>' : '') +
           '</button>';
@@ -228,7 +225,7 @@
     const note = (function(){
       const notes = [];
       ATTRS.forEach(function(a){
-        const other = ATTRS.find(x=>x.key!==a.key);
+        const other = ATTRS.find(x=>x.key!==a.key) || a;
         a.values.forEach(function(val){
           if(reachable(a.key,val) && !availableWith(a.key,val))
             notes.push(val+' is held only with a different '+other.label.toLowerCase());
@@ -261,12 +258,12 @@
       if(k==='Condition') v.textContent = ready ? vSel.cond : 'Varies by example';
       if(k==='Coupons')   v.textContent = ready ? vSel.coupons : 'Varies by example';
       if(k==='Size')      v.textContent = ready ? vSel.size : 'Varies by example';
-      if(k==='Issued')    v.textContent = pick.signed ? 'New York, '+pick.signed.slice(-4) : 'New York, 1884 or 1886';
+      if(k==='Issued')    v.textContent = 'New York, 1884';
     });
     document.querySelectorAll('.pd-specs .r').forEach(function(r){
       const k = r.querySelector('.k').textContent.trim(), v = r.querySelector('.v');
       if(k==='Condition') v.textContent = ready ? vSel.cond : 'Varies by example';
-      if(k==='Date')      v.textContent = pick.signed || '1884 or 1886';
+      if(k==='Date')      v.textContent = '1884';
       if(k==='Lot No.')   v.textContent = ready ? vSel.sku : '—';
     });
     if(ready){
@@ -275,19 +272,22 @@
     }
     const eye = document.getElementById('pdEyebrow');
     if(eye) eye.textContent = ready
-      ? 'Bond · New York, '+pick.signed.slice(-4)+' · '+pick.colour+' · SKU '+vSel.sku
+      ? 'Bond · New York, 1884 · '+pick.colour+' · SKU '+vSel.sku
       : 'Bond · New York · '+STOCK.filter(v=>v.stock>0).length+' examples held';
     if(qty > Math.max(1, ready?vSel.stock:1)){ qty = 1; qn.textContent = qty; }
     const add = document.getElementById('addCart');
     if(add){
-      // Sold out is the only state that isn't "Add to Cart" — before an option is
-      // picked the button stays live and scrolls down to the picker instead.
-      const out = ready && !has;
-      add.disabled = out;
-      add.classList.toggle('is-disabled', out);
-      add.innerHTML = out
-        ? 'Sold'
+      const notify = ready && !has;
+      add.dataset.mode = notify ? 'notify' : 'cart';
+      add.disabled = !ready;
+      add.classList.toggle('is-disabled', !ready);
+      add.classList.toggle('btn-notify', notify);
+      add.innerHTML = notify
+        ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg>Notify Me When Available'
         : 'Add to Cart<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+      add.title = ready ? '' : 'Select an option above first';
+      const nf = document.getElementById('pdNotify');
+      if(nf && !notify) nf.hidden = true;
     }
     const qwrap = document.querySelector('.pd-buy .qty');
     if(qwrap) qwrap.style.opacity = has ? '' : '.45';
@@ -298,8 +298,18 @@
     host.innerHTML = optsHTML();
     host.querySelectorAll('[data-k]').forEach(function(b){
       b.addEventListener('click', function(){
-        pick[b.dataset.k] = b.dataset.v;
-        vSel = findV(pick);
+        const k = b.dataset.k, val = b.dataset.v;
+        if(!reachable(k, val)){
+          const s = STOCK.find(v=>v[k]===val);
+          if(s){ pick = {colour:s.colour}; vSel = s; }
+          else {
+            pick[k] = val; ATTRS.forEach(a=>{ if(!pick[a.key]) pick[a.key] = a.values[0]; });
+            vSel = {stock:0, sku:'—', price:0, img:stageImg.src};
+          }
+        } else {
+          pick[k] = val;
+          vSel = findV(pick);
+        }
         drawOpts(); syncMeta();
       });
     });
@@ -312,56 +322,19 @@
   document.getElementById('qDec').addEventListener('click', ()=>{ if(qty>1){qty--; qn.textContent=qty;} });
   // add to cart toast + badge
   const toast = document.getElementById('toast');
-  document.getElementById('addCart').addEventListener('click', ()=>{
-    if(!vSel){
-      const opts = document.getElementById('pdOpts');
-      if(opts) opts.scrollIntoView({behavior:'smooth', block:'center'});
-      return;
+  document.getElementById('addCart').addEventListener('click', (e)=>{
+    if(e.currentTarget.dataset.mode === 'notify'){
+      const nf = document.getElementById('pdNotify'); nf.hidden = false;
+      document.getElementById('pdNotifyOk').hidden = true; nf.querySelector('input').focus(); return;
     }
-    if(!vSel.stock) return;
+    if(!vSel || !vSel.stock) return;
     if(window.LBcart){
-      window.LBcart.add({img:vSel.img, e:pick.colour+' · signed '+pick.signed, h:"Broadway & Seventh Avenue Railroad Company", price:vSel.price, qty:qty, sku:vSel.sku});
+      window.LBcart.add({img:vSel.img, e:pick.colour, h:"Broadway & Seventh Avenue Railroad Company", price:vSel.price, qty:qty, sku:vSel.sku});
     }
-    document.getElementById('toastMsg').textContent = qty+' × '+pick.colour+', signed '+pick.signed+' added to your cart';
+    document.getElementById('toastMsg').textContent = qty+' × '+pick.colour+' added to your cart';
     toast.classList.add('show');
     clearTimeout(window.__t); window.__t = setTimeout(()=>toast.classList.remove('show'), 2600);
   });
-  // share with a friend — native share sheet where there is one, else copy the link
-  function flash(msg){
-    document.getElementById('toastMsg').textContent = msg;
-    toast.classList.add('show');
-    clearTimeout(window.__t); window.__t = setTimeout(()=>toast.classList.remove('show'), 2600);
-  }
-  const shareBtn = document.getElementById('shareBtn');
-  if(shareBtn) shareBtn.addEventListener('click', async ()=>{
-    const title = "Broadway & Seventh Avenue Railroad Company";
-    const blurb = 'Thought you might like this piece from LaBarre Galleries.';
-    const url = location.href;
-    if(navigator.share){
-      try { await navigator.share({title:title, text:blurb, url:url}); return; }
-      catch(err){ if(err && err.name === 'AbortError') return; }
-    }
-    if(await copy(url)){ flash('Link copied — now send it to a friend'); return; }
-    // clipboard refused (it needs a focused document): hand off to the mail client,
-    // but say so first, so the button is never silent
-    flash('Opening your email app…');
-    location.href = 'mailto:?subject='+encodeURIComponent(title)+'&body='+encodeURIComponent(blurb+'\n\n'+url);
-  });
-  // the async clipboard needs a secure context and a real user gesture; fall back
-  // to the legacy selection copy before giving up and handing off to the mail client
-  async function copy(text){
-    try { await navigator.clipboard.writeText(text); return true; } catch(e){}
-    try {
-      const ta = document.createElement('textarea');
-      ta.value = text; ta.setAttribute('readonly','');
-      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
-      document.body.appendChild(ta);
-      ta.select(); ta.setSelectionRange(0, text.length);
-      const ok = document.execCommand('copy');
-      document.body.removeChild(ta);
-      return ok;
-    } catch(e){ return false; }
-  }
   // related
   const related = [
     {img:"assets/col-baltimore-ohio.jpg", badge:"Signed", e:"Stock · 1958", h:"Baltimore & Ohio Railroad", d:"100 shares — Jack F. Chrysler.", pr:290},
@@ -384,6 +357,22 @@
         <div class="prow"><span class="pr"><span class="s">Buy Now</span>$${it.pr.toLocaleString()}</span><span class="add">Add to Cart<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
       </div>
     </a>`).join('');
+  (function(){
+    const a = document.getElementById('pdAsk'); if(!a) return;
+    a.addEventListener('click', function(){
+      const h = document.querySelector('h1'), s = document.getElementById('stageImg') || document.querySelector('.pd-stage img, .pd-gallery img');
+      const sku = (document.getElementById('pdEyebrow')||{textContent:''}).textContent.match(/SKU\s+(\S+)/);
+      a.href = 'Ask a Question.html?item='+encodeURIComponent(h?h.textContent.trim():'')+(s?'&img='+encodeURIComponent(s.getAttribute('src')):'')+(sku?'&sku='+encodeURIComponent(sku[1]):'')+'&from=Product.html';
+    });
+  })();
+  (function(){
+    const b = document.getElementById('pdShare'); if(!b) return;
+    b.addEventListener('click', async function(){
+      const d = {title: document.title, text: 'Thought you might like this piece from LaBarre Galleries', url: location.href};
+      if(navigator.share){ try{ await navigator.share(d); }catch(e){} return; }
+      location.href = 'mailto:?subject='+encodeURIComponent(d.title)+'&body='+encodeURIComponent(d.text+':\n\n'+d.url);
+    });
+  })();
 </script>
 
 </body>

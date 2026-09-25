@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ask a Question — George H. LaBarre Galleries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/chrome.js"></script>
+<script src="assets/inventory.js"></script>
+<script src="assets/search.js"></script>
+<script src="assets/upload.js"></script>
+
+</head>
+<body data-page="contact">
+<script>document.write(LB.header('contact'))</script>
+<div class="page-head"><div class="wrap">
+  <div class="breadcrumb"><a href="home.html">Home</a><span class="sep">/</span><a href="Product.html">Product</a><span class="sep">/</span><span>Ask a Question</span></div>
+  <h1>Ask a Question</h1>
+  <p>Ask about condition, provenance, signatures or shipping. George or a specialist will reply personally, usually within one business day.</p>
+</div></div>
+<section><div class="wrap"><div class="contact-cols">
+  <div class="form-wrap" style="margin:0;">
+    <a class="ask-item" href="Product.html" id="askItem"><img src="" alt="" id="askImg"><div><b id="askTitle">About this piece</b><span id="askMeta">Your question will reference this item.</span></div></a>
+    <form onsubmit="return false;">
+      <div class="form-grid">
+        <div class="field"><label>Name</label><input type="text" placeholder="Your name"></div>
+        <div class="field"><label>Email</label><input type="email" placeholder="you@example.com"></div>
+        <div class="field full"><label>Topic</label><select><option>Condition &amp; details</option><option>Provenance &amp; authenticity</option><option>Additional photos</option><option>Shipping &amp; delivery</option><option>Price or offer</option><option>Other</option></select></div>
+        <div class="field full"><label>Your question</label><textarea placeholder="What would you like to know?"></textarea></div>
+        <div class="field full"><label>Product title</label><input type="text" placeholder="e.g. Broadway &amp; Seventh Avenue Railroad bond, 1884"></div>
+        <div class="field full"><label>Photos (optional)</label><p class="note" style="margin:0 0 8px;font-size:14px;color:var(--muted);">Comparing with a piece you own? Attach photos and we&rsquo;ll take a look.</p><div class="upload"></div></div>
+      </div>
+      <button class="btn btn-navy" type="submit">Send Question
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </form>
+  </div>
+  <div class="contact-info">
+    <h3>Prefer to Talk?</h3>
+    <p style="color:var(--muted);margin-bottom:14px;">9 AM – 9 PM EST. Ask for George.</p>
+    <div class="row"><span>Landline</span><b>(603) 882-2411</b></div>
+    <div class="row"><span>Toll-Free</span><b>1-800-717-9529</b></div>
+    <div class="row"><span>Cell &amp; Text</span><b>(603) 769-9007</b></div>
+    <div class="row"><span>Email</span><b>mail@glabarre.com</b></div>
+  </div>
+</div></div></section>
+<script>
+(function(){
+  const q = new URLSearchParams(location.search), t = q.get('item'), img = q.get('img'), sku = q.get('sku');
+  if(t) document.getElementById('askTitle').textContent = t;
+  if(sku) document.getElementById('askMeta').textContent = 'SKU '+sku;
+  const im = document.getElementById('askImg');
+  if(img){ im.src = img; im.alt = t||''; } else im.remove();
+  if(q.get('from')) document.getElementById('askItem').href = q.get('from');
+})();
+</script>
+<script>document.write(LB.footer())</script>
+</body>
+</html>

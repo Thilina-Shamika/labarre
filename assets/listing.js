@@ -27,6 +27,8 @@
       signed:false, coupons:false, unc:false, sort:'rel', view:'grid'};
     const fParam = new URLSearchParams(location.search).get('f');
     if(fParam) F.subs = [fParam];
+    const qParam = new URLSearchParams(location.search).get('q');
+    if(qParam) F.q = qParam;
 
     const uniq = k => Array.from(new Set(all.map(i=>i[k]))).filter(v=>v && v!=='—').sort();
     const cnt = pred => all.filter(pred).length;
@@ -35,76 +37,98 @@
     const CONDS = ["Choice Uncirculated","Extremely Fine","Very Fine","Fine","Good"];
     const STATS = [["available","Available now"],["auction","At auction"],["sold","Include sold &amp; archive"],["soldonly","Only sold items"]];
 
-    /* ---------- sidebar ---------- */
+    /* ---------- sidebar: advanced search rail, scoped to this department ---------- */
     const side = document.getElementById('filtersSide');
-    function multi(key, label, value, count){
-      const on = F[key].indexOf(value)!==-1;
-      return '<a data-multi="'+key+'" data-v="'+encodeURIComponent(value)+'" class="'+(count?'':'muted')+(on?' active':'')+'">'+label+(count?'<span class="cnt">'+count+'</span>':'')+'</a>';
+    const own = (TAX.find(g=>g.key===slug)||{subs:[]}).subs;
+    const SUBS = own.filter(s=>all.some(i=>i.tags.indexOf(s)!==-1));
+    const PRICE_BANDS = [[0,50],[50,150],[150,400],[400,1000],[1000,5000],[5000,null]];
+    const YR_BANDS = [[1700,1799],[1800,1865],[1866,1899],[1900,1945],[1946,2000]];
+    const openSet = new Set(['Keyword','Price','Availability']);
+    const q = s => String(s).replace(/"/g,'&quot;');
+    function grp(name, body, extra){
+      if(!body) return '';
+      return '<details class="fgrp" data-g="'+name+'"'+(openSet.has(name)?' open':'')+'><summary>'+name+(extra?' <span class="c">'+extra+'</span>':'')+'</summary>'+body+'</details>';
     }
-    function single(key, label, value, count){
-      const on = F[key]===value;
-      return '<a data-single="'+key+'" data-v="'+encodeURIComponent(value)+'" class="'+(count?'':'muted')+(on?' active':'')+'">'+label+(count?'<span class="cnt">'+count+'</span>':'')+'</a>';
+    function ck(attr, val, label, c, on){
+      if(!c && !on) return '';
+      return '<label class="fck"><input type="checkbox" data-'+attr+'="'+q(val)+'"'+(on?' checked':'')+'><span>'+label+'</span><b>'+c+'</b></label>';
     }
-    function group(name, body, open){
-      return '<div class="fgroup'+(open?' open':'')+'"><button class="gh" type="button">'+name+'<span class="chev"></span></button><div class="fsubs">'+body+'</div></div>';
+    function selHTML(id, key, anyLabel, vals){
+      if(vals.length<1) return '';
+      return '<select id="'+id+'" class="fsel"><option value="all">'+anyLabel+'</option>'+vals.map(v=>'<option value="'+q(v)+'"'+(F[key]===v?' selected':'')+'>'+esc(v)+' ('+cnt(i=>i[key]===v)+')</option>').join('')+'</select>';
     }
     function sidebarHTML(){
-      const taxGroups = TAX.map(function(g){
-        if(g.link) return '<div class="fgroup islink"><button class="gh" type="button" data-link="1">'+esc(g.name)+'<span class="chev"></span></button></div>';
-        const subs = g.subs.map(s=>multi('subs', esc(s), s, cnt(i=>i.tags.indexOf(s)!==-1))).join('');
-        return group(esc(g.name), subs, g.key===slug || F.subs.some(s=>g.subs.indexOf(s)!==-1));
-      }).join('');
+      const types = uniq('type');
+      const pBands = PRICE_BANDS.filter(([a,b])=>cnt(i=>i.pr>=a&&(!b||i.pr<=b)));
+      const yBands = YR_BANDS.filter(([a,b])=>cnt(i=>i.yr>=a&&i.yr<=b));
       const states = uniq('state').filter(v=>F.region==='all'||all.some(i=>i.state===v&&i.region===F.region));
       const cities = uniq('city').filter(v=>(F.state==='all'||all.some(i=>i.city===v&&i.state===F.state))&&(F.region==='all'||all.some(i=>i.city===v&&i.region===F.region)));
-      return '<div class="fs-head"><span class="t">Filter</span>'+
-        '<button class="clr" id="fsClear">Clear all</button>'+
-        '<button class="fs-close" id="fsClose" aria-label="Close filters"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'+
-        '<div class="fs-scroll">'+
-        group('Availability', STATS.map(([k,l])=>multi('st', l, k, k==='soldonly'?cnt(i=>i.st==='sold'):cnt(i=>i.st===k))).join(''), F.st.length>0)+
-        group('Product type', uniq('type').map(t=>multi('type', esc(t), t, cnt(i=>i.type===t))).join(''), F.type.length>0)+
-        group('Date', DECADES.map(([a,b,l])=>'<a data-yr="'+a+'-'+b+'" class="'+(cnt(i=>i.yr>=a&&i.yr<=b)?'':'muted')+(F.ymin==a&&F.ymax==b?' active':'')+'">'+l+'<span class="cnt">'+cnt(i=>i.yr>=a&&i.yr<=b)+'</span></a>').join(''), !!F.ymin)+
-        group('Price', [[0,50],[50,150],[150,400],[400,1000],[1000,5000],[5000,null]].map(function(b){
-          const lab = b[1]?money(b[0])+' – '+money(b[1]):money(b[0])+'+';
-          const c = cnt(i=>i.pr>=b[0] && (!b[1]||i.pr<=b[1]));
-          return '<a data-pr="'+b[0]+'-'+(b[1]||'')+'" class="'+(c?'':'muted')+(F.pmin==b[0]&&String(F.pmax)==String(b[1]||'')?' active':'')+'">'+lab+'<span class="cnt">'+c+'</span></a>';
-        }).join(''), !!F.pmin)+
-        group('Region', uniq('region').map(r=>single('region', esc(r), r, cnt(i=>i.region===r))).join(''), F.region!=='all')+
-        group('State / country', states.map(r=>single('state', esc(r), r, cnt(i=>i.state===r))).join('') || '<span class="fnote">No states in this selection</span>', F.state!=='all')+
-        group('City / area', cities.map(r=>single('city', esc(r), r, cnt(i=>i.city===r))).join('') || '<span class="fnote">No cities in this selection</span>', F.city!=='all')+
-        group('Printer / engraver', uniq('printer').map(r=>single('printer', esc(r), r, cnt(i=>i.printer===r))).join(''), F.printer!=='all')+
-        group('Size', SIZES.map(([k,l])=>{const b=S.SIZEBUCKET[k];return multi('size', l, k, cnt(i=>S.longest(i)>=b[0]&&S.longest(i)<b[1]));}).join(''), F.size.length>0)+
-        group('Condition', CONDS.map(c=>multi('cond', c, c, cnt(i=>i.cond===c))).join(''), F.cond.length>0)+
-        group('Features', [['signed','Signed or autographed',cnt(i=>i.signed)],['coupons','Coupons attached',cnt(i=>i.coupons)],['unc','Uncancelled',cnt(i=>i.unc)]]
-          .map(([k,l,c])=>'<a data-bool="'+k+'" class="'+(c?'':'muted')+(F[k]?' active':'')+'">'+l+'<span class="cnt">'+c+'</span></a>').join(''), F.signed||F.coupons||F.unc)+
-        taxGroups+
-        '<a class="fs-adv" href="Search.html?cat='+encodeURIComponent(slug)+'">Advanced search across all departments →</a>'+
-        '</div>';
+      const feats = [['signed','Signed or autographed'],['coupons','Coupons attached'],['unc','Uncancelled']].map(([k,l])=>ck('bool',k,l,cnt(i=>i[k]),F[k])).join('');
+      const has = F.q||F.subs.length||F.pmin||F.pmax||F.ymin||F.ymax||F.st.length||F.cond.length||F.size.length||F.type.length||F.signed||F.coupons||F.unc||['printer','region','state','city'].some(k=>F[k]!=='all');
+      return '<div class="rail-top"><h3>Refine '+esc(S.CATNAME[slug]||'')+'</h3>'+
+          (has?'<button class="clr" id="fsClear" type="button">Clear all</button>':'')+
+          '<button class="fs-close" id="fsClose" type="button" aria-label="Close filters"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'+
+        grp('Keyword', '<form class="frow" id="fsQ"><input type="text" id="fsQin" placeholder="Company, signer, item ID…" value="'+q(S.strip(F.q))+'"><button class="btn btn-navy" type="submit" style="padding:8px 12px;">Go</button></form>')+
+        grp('Subcategory', SUBS.length?'<div class="fscroll">'+SUBS.map(s=>ck('sub',s,esc(s),cnt(i=>i.tags.indexOf(s)!==-1),F.subs.indexOf(s)!==-1)).join('')+'</div>':'', SUBS.length)+
+        grp('Price', '<div class="frow"><input type="number" id="fsPmin" placeholder="Min $" value="'+F.pmin+'"><span class="dash">–</span><input type="number" id="fsPmax" placeholder="Max $" value="'+F.pmax+'"></div>'+
+          (pBands.length?'<div class="bands">'+pBands.map(([a,b])=>'<button type="button" class="band'+(F.pmin==a&&String(F.pmax)===String(b||'')?' on':'')+'" data-pa="'+a+'" data-pb="'+(b||'')+'">'+(b?money(a)+'–'+money(b):money(a)+'+')+'</button>').join('')+'</div>':''))+
+        grp('Date of issue', yBands.length?'<div class="frow"><input type="number" id="fsYmin" placeholder="From" value="'+F.ymin+'"><span class="dash">–</span><input type="number" id="fsYmax" placeholder="To" value="'+F.ymax+'"></div><div class="bands">'+yBands.map(([a,b])=>'<button type="button" class="band'+(F.ymin==a&&F.ymax==b?' on':'')+'" data-ya="'+a+'" data-yb="'+b+'">'+a+'–'+b+'</button>').join('')+'</div>':'')+
+        grp('Availability', STATS.map(([k,l])=>ck('st',k,l,k==='soldonly'?cnt(i=>i.st==='sold'):cnt(i=>i.st===k),F.st.indexOf(k)!==-1)).join(''))+
+        grp('Product type', types.length>1||F.type.length?types.map(t=>ck('type',t,esc(t),cnt(i=>i.type===t),F.type.indexOf(t)!==-1)).join(''):'')+
+        grp('Size', SIZES.map(([k,l])=>{const b=S.SIZEBUCKET[k];return ck('size',k,l,cnt(i=>S.longest(i)>=b[0]&&S.longest(i)<b[1]),F.size.indexOf(k)!==-1);}).join(''), 'longest edge')+
+        grp('Condition', CONDS.map(c=>ck('cond',c,c,cnt(i=>i.cond===c),F.cond.indexOf(c)!==-1)).join(''))+
+        grp('Features', feats)+
+        grp('Printer / engraver', selHTML('fsPrinter','printer','Any printer',uniq('printer')))+
+        grp('Region', selHTML('fsRegion','region','Anywhere',uniq('region')))+
+        grp('State / country', selHTML('fsState','state','Any state',states))+
+        grp('City / area of issue', selHTML('fsCity','city','Any city',cities))+
+        '<div class="rail-foot"><p class="hint">Can\'t find it? <a href="Contact.html">Tell us what you\'re hunting</a> and we\'ll write when it arrives.</p></div>';
     }
+    function tog(arr,v){ const i=arr.indexOf(v); i<0?arr.push(v):arr.splice(i,1); }
+    function go(){ shown = START; apply(); }
     function wireSidebar(){
       if(!side) return;
+      const st = side.scrollTop;
       side.innerHTML = sidebarHTML();
-      side.querySelectorAll('.fgroup:not(.islink) .gh').forEach(function(h){
-        h.addEventListener('click', function(){ h.parentElement.classList.toggle('open'); });
+      side.scrollTop = st;
+    }
+    if(side){
+      side.classList.add('adv-rail');
+      side.addEventListener('toggle', function(e){ const d=e.target; if(d.dataset&&d.dataset.g){ d.open?openSet.add(d.dataset.g):openSet.delete(d.dataset.g); } }, true);
+      side.addEventListener('change', function(e){
+        const t = e.target, d = t.dataset;
+        if(d.sub!==undefined) tog(F.subs,d.sub);
+        else if(d.st!==undefined) tog(F.st,d.st);
+        else if(d.type!==undefined) tog(F.type,d.type);
+        else if(d.size!==undefined) tog(F.size,d.size);
+        else if(d.cond!==undefined) tog(F.cond,d.cond);
+        else if(d.bool!==undefined) F[d.bool]=t.checked;
+        else if(t.id==='fsPmin') F.pmin=t.value; else if(t.id==='fsPmax') F.pmax=t.value;
+        else if(t.id==='fsYmin') F.ymin=t.value; else if(t.id==='fsYmax') F.ymax=t.value;
+        else if(t.id==='fsPrinter') F.printer=t.value;
+        else if(t.id==='fsRegion'){ F.region=t.value; F.state='all'; F.city='all'; }
+        else if(t.id==='fsState'){ F.state=t.value; F.city='all'; }
+        else if(t.id==='fsCity') F.city=t.value;
+        else return;
+        go();
       });
-      side.querySelectorAll('.fsubs a').forEach(function(a){
-        a.addEventListener('click', function(e){
-          e.preventDefault();
-          const d = a.dataset;
-          if(d.multi){ const v = decodeURIComponent(d.v); const i = F[d.multi].indexOf(v); i<0?F[d.multi].push(v):F[d.multi].splice(i,1); }
-          else if(d.single){ const v = decodeURIComponent(d.v); F[d.single] = (F[d.single]===v)?'all':v; if(d.single==='region'){F.state='all';F.city='all';} if(d.single==='state'){F.city='all';} }
-          else if(d.yr){ const [a1,b1] = d.yr.split('-'); if(F.ymin==a1&&F.ymax==b1){F.ymin='';F.ymax='';} else {F.ymin=a1;F.ymax=b1;} }
-          else if(d.pr){ const [a1,b1] = d.pr.split('-'); if(F.pmin==a1&&String(F.pmax)===b1){F.pmin='';F.pmax='';} else {F.pmin=a1;F.pmax=b1;} }
-          else if(d.bool){ F[d.bool] = !F[d.bool]; }
-          shown = START; apply(); closeMobile();
-        });
+      side.addEventListener('click', function(e){
+        const b = e.target.closest('.band');
+        if(b){
+          if(b.dataset.pa!==undefined){ if(b.classList.contains('on')){F.pmin='';F.pmax='';} else {F.pmin=b.dataset.pa;F.pmax=b.dataset.pb;} }
+          else { if(b.classList.contains('on')){F.ymin='';F.ymax='';} else {F.ymin=b.dataset.ya;F.ymax=b.dataset.yb;} }
+          go(); return;
+        }
+        if(e.target.closest('#fsClear')){ reset(); return; }
+        if(e.target.closest('#fsClose')) closeMobile();
       });
-      const clr = document.getElementById('fsClear');
-      if(clr) clr.addEventListener('click', reset);
-      const cls = document.getElementById('fsClose');
-      if(cls) cls.addEventListener('click', closeMobile);
+      side.addEventListener('submit', function(e){
+        if(e.target.id!=='fsQ') return;
+        e.preventDefault(); F.q = document.getElementById('fsQin').value.trim(); go();
+      });
     }
     function reset(){
-      Object.assign(F, {subs:[],pmin:'',pmax:'',ymin:'',ymax:'',st:[],cond:[],size:[],printer:'all',region:'all',state:'all',city:'all',type:[],signed:false,coupons:false,unc:false});
+      Object.assign(F, {q:'',subs:[],pmin:'',pmax:'',ymin:'',ymax:'',st:[],cond:[],size:[],printer:'all',region:'all',state:'all',city:'all',type:[],signed:false,coupons:false,unc:false});
       shown = START; apply();
     }
 
@@ -125,6 +149,7 @@
     const CHIPLABEL = {available:'Available now',auction:'At auction',sold:'Incl. sold',soldonly:'Sold only'};
     function chips(){
       const c = [];
+      if(F.q) c.push(['q','','“'+esc(S.strip(F.q))+'”']);
       F.subs.forEach(v=>c.push(['subs',v,esc(v)]));
       F.type.forEach(v=>c.push(['type',v,esc(v)]));
       F.st.forEach(v=>c.push(['st',v,CHIPLABEL[v]||v]));
@@ -150,6 +175,7 @@
           else if(k==='yr'){ F.ymin=''; F.ymax=''; }
           else if(k==='pr'){ F.pmin=''; F.pmax=''; }
           else if(typeof F[k]==='boolean') F[k]=false;
+          else if(k==='q') F.q='';
           else F[k]='all';
           shown = START; apply();
         });

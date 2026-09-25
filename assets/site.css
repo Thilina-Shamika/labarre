@@ -548,16 +548,27 @@
   .pd-buy .qty{flex:none;}
   .pd-buy .qty button{height:100%;}
   .pd-buy .btn{flex:1;justify-content:center;}
-  .pd-sub{display:flex;gap:12px;margin-bottom:26px;}
-  .pd-sub .btn{flex:1;justify-content:center;}
+  .pd-buy .btn.btn-notify{background:transparent;color:var(--navy);border-color:var(--navy);gap:8px;}
+  .pd-buy .btn.btn-notify:hover{background:var(--navy);color:var(--paper);}
+  .pd-buy:has(.btn-notify) .qty{display:none;}
+  .pd-notify{margin:-8px 0 16px;padding:16px;border:1px solid var(--line-2);background:#fff;}
+  .pd-notify[hidden]{display:none;}
+  .pd-notify p{font-size:15px;color:var(--muted);margin-bottom:10px;}
+  .pd-notify .row{display:flex;gap:8px;}
+  .pd-notify input{flex:1;min-width:0;padding:12px 14px;border:1px solid var(--line-2);font:inherit;font-size:15px;}
+  .pd-notify .btn{padding:12px 20px;}
+  .pd-notify .ok{margin:10px 0 0;color:var(--navy);}
+  .pd-sub{display:flex;gap:12px;margin-bottom:16px;}
+  .pd-sub .btn{flex:1;justify-content:center;gap:8px;}
+  .pd-sell{display:inline-flex;align-items:center;gap:8px;margin-bottom:26px;font-size:15px;color:var(--navy,#1f2a44);text-decoration:none;}
+  .pd-sell+.pd-look{margin-left:24px;}
+  .pd-sell:hover{color:var(--gold,#b08d3c);}
+  .pd-sell span{text-decoration:none;transition:transform .2s;}
+  .pd-sell:hover span{transform:translateX(3px);}
   .pd-assure{border-top:1px solid var(--line);padding-top:20px;}
   .pd-assure .a{display:flex;gap:11px;align-items:flex-start;padding:8px 0;font-size:15px;color:#4c4636;}
   .pd-assure .a svg{color:var(--gold);flex:none;margin-top:2px;}
   .pd-assure .a b{font-weight:600;color:var(--ink);}
-  .pd-sell{display:inline-flex;align-items:center;gap:9px;font-size:15px;font-weight:600;color:var(--navy);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:5px;transition:color .2s,gap .2s,border-color .2s;}
-  .pd-sell svg{color:var(--gold);flex:none;transition:color .2s;}
-  .pd-sell:hover{color:var(--gold);gap:12px;}
-  .pd-sell:hover svg{color:var(--navy);}
   .pd-section{margin-top:96px;}
   .pd-section .shead{margin-bottom:40px;}
   .pd-desc{display:grid;grid-template-columns:1.4fr 1fr;gap:56px;align-items:start;}
@@ -1291,10 +1302,6 @@
   .chiprow + .itemnote{margin-top:-6px;}
   .cart-items .itemnote,#cartItems + .itemnote{margin:16px 0 0;}
 
-  /* form section — .news-sec without the centring, for pages that are a form */
-  .form-sec{background:var(--paper-3);border-top:1px solid var(--line);}
-
-  /* photo upload field (assets/upload.js builds the markup inside .upload) */
   .upload{display:grid;gap:12px;}
   .up-drop{display:grid;justify-items:center;gap:6px;text-align:center;padding:26px 18px;border:1.5px dashed var(--line);border-radius:4px;background:#fff;cursor:pointer;color:var(--muted);transition:border-color .2s,background .2s;}
   .field .up-drop,.up-drop{font-family:var(--body,inherit);font-size:15px;font-weight:400;text-transform:none;letter-spacing:normal;margin:0;}
@@ -1310,3 +1317,15 @@
   .up-list button{position:absolute;top:4px;right:4px;width:24px;height:24px;border:0;border-radius:50%;background:rgba(20,24,36,.8);color:#fff;font-size:16px;line-height:1;cursor:pointer;}
   .up-list button:hover{background:var(--gold,#b08d3c);}
   .up-err{margin:0;font-size:13px;color:#8a3c3c;} .up-err:empty{display:none;}
+  .ask-item{display:flex;gap:14px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:4px;background:#fff;margin-bottom:26px;}
+  .ask-item img{width:64px;height:64px;object-fit:cover;border-radius:2px;}
+  .ask-item b{display:block;font-weight:500;} .ask-item span{font-size:14px;color:var(--muted);}
+
+  .filters-side.adv-rail{display:block;max-height:calc(100vh - 100px);overflow:auto;}
+  .adv-rail .rail-top{gap:10px;}
+  .adv-rail .rail-top h3{margin-right:auto;}
+  .adv-rail .band.on{border-color:var(--navy);background:var(--navy);color:var(--paper);}
+  .adv-rail .fs-close{flex:none;}
+  @media(max-width:1080px){ .filters-side.adv-rail{max-height:none;overflow:auto;} }
+
+  .form-sec{background:var(--paper-3);border-top:1px solid var(--line);}
