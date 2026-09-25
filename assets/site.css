@@ -554,6 +554,10 @@
   .pd-assure .a{display:flex;gap:11px;align-items:flex-start;padding:8px 0;font-size:15px;color:#4c4636;}
   .pd-assure .a svg{color:var(--gold);flex:none;margin-top:2px;}
   .pd-assure .a b{font-weight:600;color:var(--ink);}
+  .pd-sell{display:inline-flex;align-items:center;gap:9px;font-size:15px;font-weight:600;color:var(--navy);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:5px;transition:color .2s,gap .2s,border-color .2s;}
+  .pd-sell svg{color:var(--gold);flex:none;transition:color .2s;}
+  .pd-sell:hover{color:var(--gold);gap:12px;}
+  .pd-sell:hover svg{color:var(--navy);}
   .pd-section{margin-top:96px;}
   .pd-section .shead{margin-bottom:40px;}
   .pd-desc{display:grid;grid-template-columns:1.4fr 1fr;gap:56px;align-items:start;}

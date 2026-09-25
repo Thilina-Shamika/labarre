@@ -74,11 +74,17 @@
         </button>
       </div>
       <div class="pd-sub">
-        <a href="Cart.html" class="btn btn-gold">Buy It Now</a>
+        <button type="button" class="btn btn-gold" id="shareBtn">Share with a Friend
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+        </button>
         <a href="Contact.html" class="btn btn-line">Ask a Question</a>
       </div>
 
       <div class="pd-assure">
+        <a href="Sell to Us.html" class="pd-sell">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 2.8 12V4a1 1 0 0 1 1-1h8a2 2 0 0 1 1.4.6l7.4 7.4a2 2 0 0 1 0 2.8z"/><circle cx="7.6" cy="7.6" r="1.2"/></svg>
+          <span>I have one to sell</span>
+        </a>
       </div>
     </div>
   </div>
@@ -272,18 +278,16 @@
       ? 'Bond · New York, '+pick.signed.slice(-4)+' · '+pick.colour+' · SKU '+vSel.sku
       : 'Bond · New York · '+STOCK.filter(v=>v.stock>0).length+' examples held';
     if(qty > Math.max(1, ready?vSel.stock:1)){ qty = 1; qn.textContent = qty; }
-    const add = document.getElementById('addCart'), buy = document.querySelector('.pd-sub .btn-gold');
+    const add = document.getElementById('addCart');
     if(add){
-      add.disabled = !has;
-      add.classList.toggle('is-disabled', !has);
-      add.innerHTML = !ready
-        ? 'Select an Option'
-        : (has ? 'Add to Cart<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' : 'Sold');
-    }
-    if(buy){
-      buy.classList.toggle('is-disabled', !has);
-      buy.textContent = !ready ? 'Buy It Now' : (has ? 'Buy It Now' : 'Join the Want List');
-      buy.setAttribute('href', has ? 'Cart.html' : (ready ? 'Contact.html' : '#pdOpts'));
+      // Sold out is the only state that isn't "Add to Cart" — before an option is
+      // picked the button stays live and scrolls down to the picker instead.
+      const out = ready && !has;
+      add.disabled = out;
+      add.classList.toggle('is-disabled', out);
+      add.innerHTML = out
+        ? 'Sold'
+        : 'Add to Cart<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
     }
     const qwrap = document.querySelector('.pd-buy .qty');
     if(qwrap) qwrap.style.opacity = has ? '' : '.45';
@@ -309,7 +313,12 @@
   // add to cart toast + badge
   const toast = document.getElementById('toast');
   document.getElementById('addCart').addEventListener('click', ()=>{
-    if(!vSel || !vSel.stock) return;
+    if(!vSel){
+      const opts = document.getElementById('pdOpts');
+      if(opts) opts.scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+    if(!vSel.stock) return;
     if(window.LBcart){
       window.LBcart.add({img:vSel.img, e:pick.colour+' · signed '+pick.signed, h:"Broadway & Seventh Avenue Railroad Company", price:vSel.price, qty:qty, sku:vSel.sku});
     }
@@ -317,6 +326,42 @@
     toast.classList.add('show');
     clearTimeout(window.__t); window.__t = setTimeout(()=>toast.classList.remove('show'), 2600);
   });
+  // share with a friend — native share sheet where there is one, else copy the link
+  function flash(msg){
+    document.getElementById('toastMsg').textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(window.__t); window.__t = setTimeout(()=>toast.classList.remove('show'), 2600);
+  }
+  const shareBtn = document.getElementById('shareBtn');
+  if(shareBtn) shareBtn.addEventListener('click', async ()=>{
+    const title = "Broadway & Seventh Avenue Railroad Company";
+    const blurb = 'Thought you might like this piece from LaBarre Galleries.';
+    const url = location.href;
+    if(navigator.share){
+      try { await navigator.share({title:title, text:blurb, url:url}); return; }
+      catch(err){ if(err && err.name === 'AbortError') return; }
+    }
+    if(await copy(url)){ flash('Link copied — now send it to a friend'); return; }
+    // clipboard refused (it needs a focused document): hand off to the mail client,
+    // but say so first, so the button is never silent
+    flash('Opening your email app…');
+    location.href = 'mailto:?subject='+encodeURIComponent(title)+'&body='+encodeURIComponent(blurb+'\n\n'+url);
+  });
+  // the async clipboard needs a secure context and a real user gesture; fall back
+  // to the legacy selection copy before giving up and handing off to the mail client
+  async function copy(text){
+    try { await navigator.clipboard.writeText(text); return true; } catch(e){}
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly','');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+      document.body.appendChild(ta);
+      ta.select(); ta.setSelectionRange(0, text.length);
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    } catch(e){ return false; }
+  }
   // related
   const related = [
     {img:"assets/col-baltimore-ohio.jpg", badge:"Signed", e:"Stock · 1958", h:"Baltimore & Ohio Railroad", d:"100 shares — Jack F. Chrysler.", pr:290},
