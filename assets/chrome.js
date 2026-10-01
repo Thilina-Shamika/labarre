@@ -15,7 +15,7 @@
     {label:"Events",            href:"Events.html",           page:"events"},
     {label:"Testimonials",      href:"Testimonials.html",     page:"testimonials"},
     {label:"About Collecting",  href:"About Collecting.html", page:"collecting"},
-    {label:"About",             href:"About.html",            page:"about"},
+    {label:"About Us",          href:"About.html",            page:"about"},
   ];
 
   // ===== mega menu data =====
